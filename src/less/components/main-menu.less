@@ -1,0 +1,46 @@
+.main-menu {
+  background: #fff;
+
+  h1 {
+    color: @color-primary-4;
+    height: 100px;
+    line-height: 100px;
+    text-transform: uppercase;
+    font-size: 18px;
+    padding: 0 30px;
+  }
+
+  ul {
+    list-style: none;
+    height: 39px;
+    line-height: 40px;
+
+    li {
+
+      padding: 0 30px;
+
+      a {
+        display: block;
+        margin: 0 -30px;
+        padding: 0 30px;
+        height: 100%;
+        text-decoration: none;
+        color: #777;
+        cursor: pointer;
+
+        &.active, &:hover {
+          color: #111;
+          background: #f4f4f4;
+        }
+
+      }
+    }
+
+    &.menu-bottom {
+      position: absolute;
+      bottom: 20px;
+      height: auto;
+      width: 100%;
+    }
+  }
+}
