@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 
 import Categories from '../../services/Categories'
+import TaskEditor from '../../components/TaskEditor'
+
 
 class CategoryEditor extends Component {
 
@@ -16,6 +18,7 @@ class CategoryEditor extends Component {
         };
 
         this.handleCategoryNameChange = this.handleCategoryNameChange.bind(this)
+        this.addNewTask = this.addNewTask.bind(this)
     }
 
     componentDidMount() {
@@ -39,12 +42,25 @@ class CategoryEditor extends Component {
         })
     }
 
+    addNewTask(task) {
+        const {id} = this.props.params;
+
+        let category = {
+            ...this.state.category,
+            tasks: [...this.state.category.tasks, task]
+        };
+
+        Categories.updateCategory(id, category).then(() => this.setState({
+            category
+        }));
+    }
+
     render() {
         const {category} = this.state;
         return (
             <div>
                 <div className="row">
-                    <div className="column">
+                    <div className="col-sm-8">
                         <h3>Category Details</h3>
                         <p><label>Category name:</label>
                             <input type="text"
@@ -62,32 +78,37 @@ class CategoryEditor extends Component {
                                     <p>No tasks yet.</p>
                                 </div>
                             ) : (
-                                <table className="table">...</table>
+                                <table className="table table-bordered">
+                                    <tbody>
+                                    {category.tasks.map((t, idx) => {
+                                        return <tr key={idx}>
+                                            <td>{idx + 1}</td>
+                                            <td>
+                                                <pre>{t.query}</pre>
+                                            </td>
+                                            <td>
+                                                {t.description}
+                                            </td>
+                                        </tr>
+                                    })}
+                                    </tbody>
+                                </table>
                             )}
 
                         </div>
 
 
                     </div>
-                    <div className="column">
+                    <div className="col-sm-4">
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 <h3 className="panel-title">
                                     Add new task
-                                    <button className="btn btn-default btn-xs pull-right">Save</button>
+
                                 </h3>
                             </div>
                             <div className="panel-body">
-
-                                <p>
-                                    <label>Correct task query:</label>
-                                    <textarea className="form-control" cols="30" rows="10"/>
-                                </p>
-                                <p>
-                                    <label>Task description:</label>
-                                    <textarea className="form-control" cols="30" rows="10"/>
-                                </p>
-
+                                <TaskEditor onSubmit={this.addNewTask}/>
                             </div>
                         </div>
                     </div>

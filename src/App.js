@@ -5,8 +5,6 @@ import Login from './components/Login'
 import AdminRouter from './routers/AdminRouter'
 import UserRouter from './routers/UserRouter'
 
-
-console.log(fetch)
 class App extends Component {
 
 

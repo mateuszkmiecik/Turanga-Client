@@ -1,26 +1,19 @@
 import React  from 'react'
-import {Link} from 'react-router'
 
 import Auth from '../services/Auth'
 
-
 const MainLayout = (props) => (
     <div>
-        <div className="main-menu">
-            <h1>Turanga</h1>
-            <ul>
-                <li><Link to="/">Tasks</Link></li>
-                <li><Link to="/databases">Databases</Link></li>
-            </ul>
-
+        <div className="header">
+            <div className="col-sm-6">
+                <h1 className="logo">Turanga</h1>
+            </div>
+            <div className="col-sm-6 text-right">
+                <button onClick={Auth.logout} className="btn btn-primary">Logout</button>
+            </div>
         </div>
-        <div className="main-app">
-            <div className="clearfix">
-                <button onClick={Auth.logout} className="btn btn-primary pull-right">Logout</button>
-            </div>
-            <div className="content">
-                {props.children}
-            </div>
+        <div className="content">
+            {props.children}
         </div>
     </div>
 );

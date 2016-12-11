@@ -32,7 +32,6 @@ class CategoriesManager extends Component {
     }
 
     createNewCategory() {
-        debugger;
         let {newCategoryName} = this.state;
         if (!!newCategoryName) {
             Categories.createCategory(newCategoryName).then(this.refreshList)
@@ -63,6 +62,7 @@ class CategoriesManager extends Component {
                     {this.state.list.map(b => (
                         <div key={b._id} className="box">
                             <h3>{b.name}</h3>
+                            <p>{</p>
                             <Link to={`/categories/${b._id}`} className="pull-right"><i className="fa fa-edit"/>
                                 Edit</Link>
                         </div>
