@@ -3,7 +3,7 @@ import React  from 'react'
 import Auth from '../services/Auth'
 
 const MainLayout = (props) => (
-    <div>
+    <div className="full-height">
         <div className="header">
             <div className="col-sm-6">
                 <h1 className="logo">Turanga</h1>

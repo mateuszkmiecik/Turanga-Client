@@ -3,23 +3,25 @@
 .header {
   height: @headerHeight;
   line-height: @headerHeight;
-  padding: 0 30px;
+  padding: 0 20px;
   background: #fff;
+  position: absolute;
+  width: 100%;
+  display: block;
+  top: 0;
   border-bottom: 2px solid #ddd;
 
 
-  h1 {
+  .logo {
     color: @color-primary-4;
     text-transform: uppercase;
     font-size: 18px;
     float: left;
     font-weight: bold;
     margin: 0;
+    text-decoration: none;
     margin-right:50px;
     padding: 0;
     line-height: @headerHeight;
-  }
-  a {
-    margin-right: 20px;
   }
 }

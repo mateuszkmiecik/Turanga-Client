@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Router, Route, hashHistory, IndexRoute} from 'react-router'
 
-import AdminLayout from '../views/AdminLayout'
+import MainLayout from '../views/MainLayout'
 import scenes from '../scenes/admin'
 
 class AppRouter extends Component {
@@ -9,11 +9,14 @@ class AppRouter extends Component {
     render() {
         return (
             <Router history={hashHistory}>
-                <Route path='/' component={AdminLayout}>
-                    <IndexRoute component={scenes.CategoriesManager}/>
+                <MainLayout>
+                    <Route path='/' component={scenes.Main} >
+                        <IndexRoute component={scenes.Dashboard}/>
+                        <Route path="databases" component={scenes.DatabasesManager}/>
+                        <Route path="categories" component={scenes.CategoriesManager}/>
+                    </Route>
                     <Route path="/categories/:id" component={scenes.CategoryEditor}/>
-                    <Route path="/databases" component={scenes.DatabasesManager}/>
-                </Route>
+                </MainLayout>
             </Router>
         )
     }

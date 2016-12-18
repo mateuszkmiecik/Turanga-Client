@@ -1,14 +1,27 @@
 .runner {
 
-  .task-section {
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    left: 0;
+  .task-query {
+    position: relative;
 
-    .task-content {
-      padding: 20px;
+    .ReactCodeMirror {
+      position: absolute;
+      top: 0;
+      bottom: 50px;
+      width: 100%;
+      .CodeMirror {
+        height: 100%;
+      }
     }
+    .panel-footer {
+      position: absolute;
+      height: 50px;
+      bottom: 0;
+      width: 100%;
+    }
+  }
+
+  .task-content {
+    padding: 20px;
   }
 
   .query-section {

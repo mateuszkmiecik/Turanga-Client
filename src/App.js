@@ -5,6 +5,8 @@ import Login from './components/Login'
 import AdminRouter from './routers/AdminRouter'
 import UserRouter from './routers/UserRouter'
 
+import MainLayout from './views/MainLayout'
+
 class App extends Component {
 
 
@@ -33,23 +35,27 @@ class App extends Component {
     }
 
     render() {
+        let renderComponent = null;
+
         if (!this.state.isLoaded) {
-            return <div>Loading</div>;
+            renderComponent = <div>Loading</div>;
         }
 
-        if (!this.state.isLoggedIn) {
-            return <Login onSuccess={this.setUser}/>
+        if (this.state.isLoaded && !this.state.isLoggedIn) {
+            renderComponent = <Login onSuccess={this.setUser}/>
         }
 
 
         if (this.state.profile.role === 'ADMIN') {
-            return <AdminRouter/>
+            renderComponent = <AdminRouter/>
         }
 
 
         if (this.state.profile.role === 'USER') {
-            return <UserRouter type="abc"/>
+            renderComponent = <UserRouter type="abc"/>
         }
+
+        return <MainLayout>{renderComponent}</MainLayout>
 
     }
 }

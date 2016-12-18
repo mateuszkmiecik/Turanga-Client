@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import CodeMirror from 'react-codemirror'
+import TinyMCE from 'react-tinymce'
 
 import {onInputChange} from '../services/utils'
 
@@ -39,6 +40,12 @@ class TaskEditor extends Component {
                 </div>
                 <p>
                     <label>Task description:</label>
+                    {/*<TinyMCE*/}
+                        {/*config={{*/}
+                            {/*plugins: 'autolink link image lists print preview',*/}
+                            {/*toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'*/}
+                        {/*}}*/}
+                    {/*/>*/}
                     <textarea value={this.state.task.description} onChange={onInputChange.call(this, 'task', 'description')} className="form-control" cols="30" rows="10"/>
                 </p>
 
