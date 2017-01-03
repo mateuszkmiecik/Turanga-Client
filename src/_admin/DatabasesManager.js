@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 
-import Databases from '../../services/Databases'
+import {Content} from '../components'
+import Databases from '../services/Databases'
 
 class DatabasesManager extends Component {
 
@@ -66,7 +67,7 @@ class DatabasesManager extends Component {
         let {databases, newDatabase} = this.state;
 
         return (
-            <div>
+            <Content>
 
                 <div className="panel panel-default">
                     <div className="panel-heading">
@@ -140,7 +141,7 @@ class DatabasesManager extends Component {
                     </div>
                 </div>
 
-            </div>
+            </Content>
         )
     }
 }

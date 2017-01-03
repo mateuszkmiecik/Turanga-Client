@@ -14,10 +14,17 @@
     }
     .panel-footer {
       position: absolute;
+      background: transparent;
       height: 50px;
       bottom: 0;
       width: 100%;
     }
+  }
+
+  .list-group-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .task-content {
@@ -86,12 +93,10 @@
     border-left: 1px solid #ddd;
     overflow-y: scroll;
 
-
     table {
       padding: 20px;
       border-collapse: collapse;
       width: 100%;
-
 
       td {
         padding: 2px 5px;

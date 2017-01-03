@@ -2,10 +2,10 @@ import React, {Component} from 'react'
 import Auth from './services/Auth'
 import Login from './components/Login'
 
-import AdminRouter from './routers/AdminRouter'
-import UserRouter from './routers/UserRouter'
+import AdminRouter from './_admin/_router'
+import UserRouter from './_user/_router'
 
-import MainLayout from './views/MainLayout'
+import MainLayout from './components/MainLayout'
 
 class App extends Component {
 
@@ -52,10 +52,10 @@ class App extends Component {
 
 
         if (this.state.profile.role === 'USER') {
-            renderComponent = <UserRouter type="abc"/>
+            renderComponent = <UserRouter/>
         }
 
-        return <MainLayout>{renderComponent}</MainLayout>
+        return <MainLayout loggedIn={this.state.isLoggedIn}>{renderComponent}</MainLayout>
 
     }
 }

@@ -1,7 +1,7 @@
 import API from './API'
 
-export function runQuery(query){
-    return API.post('/query');
+export function runQuery(body){
+    return API.post('/query', body);
 }
 
 export default {runQuery}

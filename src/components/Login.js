@@ -23,8 +23,6 @@ class Login extends Component {
 
         return (
             <div className="login">
-                <h1>Turanga</h1>
-
                 <div className="login-box">
                     <p><input type="text"
                               placeholder="Login"
@@ -36,7 +34,7 @@ class Login extends Component {
                               value={password}/></p>
 
                     <button onClick={this.handleLoginAction}>Login</button>
-                    <button className="link">Login as guest</button>
+                    {/*<button className="link">Login as guest</button>*/}
                 </div>
 
                 {isError ? <div className="error-message">{errorMessage}</div> : null}

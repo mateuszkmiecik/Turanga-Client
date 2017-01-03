@@ -2,10 +2,9 @@ import React, {Component} from 'react'
 
 import {Router, Route, hashHistory, IndexRoute} from 'react-router'
 
-import UserDashboard from '../scenes/user/Dashboard'
-import Runner from '../scenes/user/Runner'
-
-import MainLayout from '../views/MainLayout'
+import UserDashboard from './Dashboard'
+import Results from './Results'
+import Runner from './Runner'
 
 class AppRouter extends Component {
 
@@ -13,10 +12,12 @@ class AppRouter extends Component {
 
         return (
             <Router history={hashHistory}>
-                <Route path='/' component={MainLayout}>
+                <Route path='/'>
                     <IndexRoute component={UserDashboard}/>
-                    <Route path="/runner/:id" component={Runner}/>
+                    <Route path="results" component={Results} />
                 </Route>
+                <Route path="/runner/:id" component={Runner}/>
+
             </Router>
         )
     }

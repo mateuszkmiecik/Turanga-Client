@@ -13,7 +13,6 @@ import './less/style.less';
 
 import 'tinymce/tinymce'
 
-
 import { FocusStyleManager } from "@blueprintjs/core";
 
 FocusStyleManager.onlyShowFocusOnTabs();
