@@ -1,13 +1,13 @@
 import React from 'react';
-import {SideMenu, Sidebar} from '../components'
+import {SideMenu} from '../components'
 
 const menuItems = [{
     url: '/',
-    text: 'Dashboard',
-    iconClass: 'fa-home'
+    text: 'Categories',
+    iconClass: 'fa-reorder'
 }, {
     url: '/results',
-    iconClass: 'fa-reorder',
+    iconClass: 'fa-tasks',
     text: 'Results'
 }, {
     url: '/databases',
@@ -23,9 +23,5 @@ export default ({children}) => (
     <div className="row full-height">
         <SideMenu menu={menuItems}/>
         {children}
-        {/*<Sidebar style={{padding: '20px'}}>*/}
-            {/*<h3>Quick actions</h3>*/}
-
-        {/*</Sidebar>*/}
     </div>
 );

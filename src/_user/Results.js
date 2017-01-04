@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({}) => (
+export default () => (
     <div>
         No results yet
     </div>

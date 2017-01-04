@@ -2,7 +2,7 @@ import React, {
     Component,
 } from 'react';
 
-import {SideMenu, Content} from '../components'
+import {SideMenu} from '../components'
 
 class SingleResult extends Component {
     render() {
