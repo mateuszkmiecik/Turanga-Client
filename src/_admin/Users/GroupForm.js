@@ -1,27 +1,36 @@
 import React from 'react';
 import EditableComponent from '../../components/EditableComponent'
 
+
+const initialState = {
+    name: '',
+    description: ''
+};
+
+
 class GroupForm extends EditableComponent {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            name: '',
-            description: ''
+            ...initialState
         }
 
         this.handleCreation = this.handleCreation.bind(this)
     }
 
     handleCreation(){
-        if(!!this.props.onCreate){
-            this.props.onCreate(this.state);
+        const {name, description} = this.state;
+        const newGroup = {name, description};
+
+        if (!!this.props.onCreate) {
+            this.props.onCreate(newGroup).then(() =>
+                this.setState({
+                    ...initialState
+                })
+            );
         }
-        this.setState({
-            name: '',
-            description: ''
-        })
     }
 
     render() {

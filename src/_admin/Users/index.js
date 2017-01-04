@@ -46,7 +46,9 @@ class index extends Component {
             return false;
         }
 
-        console.log(group)
+        return API.post('/groups', group).then(this.receiveGroups).catch(() => {
+            this.showAlert(`Group ${group.name} already exists.`);
+        });
     }
 
     receiveGroups(){
@@ -59,6 +61,7 @@ class index extends Component {
             groups
         }))
     }
+
 
     createUser(user){
         if(!user.username || !user.password){
