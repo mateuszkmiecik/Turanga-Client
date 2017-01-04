@@ -53,7 +53,7 @@ class index extends Component {
 
     receiveGroups(){
         this.dispatch({
-            type: actions.RECEIVE_GROUPS
+            type: actions.REQUEST_GROUPS
         });
 
         API.get('/groups').then(groups => this.dispatch({
@@ -72,6 +72,7 @@ class index extends Component {
             this.showAlert(`User ${user.username} already exists.`);
         });
     }
+
     receiveUsers(){
         this.dispatch({
             type: actions.REQUEST_USERS
