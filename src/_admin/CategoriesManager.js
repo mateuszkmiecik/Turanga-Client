@@ -67,15 +67,15 @@ class CategoriesManager extends EditableComponent {
                                            value={this.state.newCategoryName}
                                            onChange={this.handleNewCategoryNameChange}/>
                                     <span className="input-group-btn">
-                            <button onClick={() => this.createNewCategory()} className="btn btn-default">
-                                <i className="fa fa-plus"/> add new
-                            </button>
-                            </span>
+                                        <button onClick={() => this.createNewCategory()} className="btn btn-default">
+                                            <i className="fa fa-plus"/> add new
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         <hr/>
-                        <p>
+                        <div className="action-bar">
                             Filter categories: <input type="text" value={this.state.filter}
                                                       onChange={this.handleFilterChange}
                                                       className="pt-input space-left space-right"
@@ -84,12 +84,12 @@ class CategoriesManager extends EditableComponent {
                                 <button type="button" className="pt-button pt-minimal pt-icon-cross"
                                         onClick={() => this.handleFilterChange({target: {value: ''}})}>Clear filter
                                 </button> : null }
-                        </p>
+                        </div>
 
                         {(this.state.filter.length ? this.state.listCopy : this.state.list).map(category => (
                             <div className="pt-card pt-elevation-0 pt-interactive" key={category._id}
                                  onClick={() => hashHistory.push(`/categories/${category._id}`)}
-                                 style={{marginBottom: 10}}>
+                                 style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
                                 <h5><Link to={`/categories/${category._id}`}>{category.name}</Link></h5>
                                 <p>{(category.tasks || []).length} tasks</p>
                             </div>

@@ -6,6 +6,10 @@ const menuItems = [{
     text: 'Categories',
     iconClass: 'fa-reorder'
 }, {
+    url: '/exams',
+    iconClass: 'fa-star',
+    text: 'Exams'
+}, {
     url: '/results',
     iconClass: 'fa-tasks',
     text: 'Results'
