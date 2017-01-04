@@ -83,6 +83,10 @@ module.exports = {
     },
 
     module: {
+        noParse: [
+            path.resolve('node_modules/react-quill/node_modules/quill/dist/quill.js'), //npm 2
+            path.resolve('node_modules/quill/dist/quill.js') //npm 3
+        ],
         // First, run the linter.
         // It's important to do this before Babel processes the JS.
         preLoaders: [
