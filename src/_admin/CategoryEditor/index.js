@@ -38,6 +38,7 @@ class CategoryEditor extends Component {
         this.addNewTask = this.addNewTask.bind(this)
         this.changeTaskAtSelectedIndex = this.changeTaskAtSelectedIndex.bind(this)
         this.updateCategory = this.updateCategory.bind(this)
+        this.deleteCategory = this.deleteCategory.bind(this)
     }
 
     componentDidMount() {
@@ -65,6 +66,12 @@ class CategoryEditor extends Component {
 
     componentWillUnmount() {
         window.onbeforeunload = null;
+    }
+
+    deleteCategory() {
+        API.delete(`/categories/${this.props.params.id}`).then(() => {
+            this.props.router.push("/");
+        })
     }
 
 
@@ -129,8 +136,8 @@ class CategoryEditor extends Component {
                         <div className="panel-body full-height">
 
                             <p>
-                                <button className="pull-right pt-button pt-large">
-                                    <i className="fa fa-ellipsis-v"/>
+                                <button className="pull-right pt-button pt-small" onClick={() => this.deleteCategory()}>
+                                    <i className="fa fa-trash"/>
                                 </button>
 
                                 <Link to="/" className="pt-large pt-button space-right">
