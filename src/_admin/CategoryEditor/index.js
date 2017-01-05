@@ -39,6 +39,7 @@ class CategoryEditor extends Component {
         this.changeTaskAtSelectedIndex = this.changeTaskAtSelectedIndex.bind(this)
         this.updateCategory = this.updateCategory.bind(this)
         this.deleteCategory = this.deleteCategory.bind(this)
+        this.deleteTask = this.deleteTask.bind(this)
     }
 
     componentDidMount() {
@@ -84,6 +85,16 @@ class CategoryEditor extends Component {
             editedDescription: newTask.description,
             tasks: newTaskList,
             selectedTaskIndex: newTaskList.length - 1
+        })
+    }
+
+    deleteTask() {
+        let newTaskList = [...this.state.tasks];
+        newTaskList.splice(this.state.selectedTaskIndex, 1);
+        this.setState({
+            saved: false,
+            tasks: newTaskList,
+            selectedTaskIndex: newTaskList.length == 0 ? -1 : 0
         })
     }
 
@@ -214,7 +225,7 @@ class CategoryEditor extends Component {
                     </div>
                     <div className="relative full-height">
 
-                        {this.state.selectedTaskIndex < 0 ? 'Select task from list on the left.' : <TaskEditor task={tasks[selectedTaskIndex]} onChange={this.changeTaskAtSelectedIndex}/>}
+                        {this.state.selectedTaskIndex < 0 ? 'Select task from list on the left.' : <TaskEditor task={tasks[selectedTaskIndex]} onChange={this.changeTaskAtSelectedIndex} onDelete={this.deleteTask}/>}
                     </div>
                 </Sidebar>
             </div>
