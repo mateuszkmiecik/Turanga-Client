@@ -26,9 +26,11 @@ class index extends Component {
         this.showAlert = this.showAlert.bind(this);
 
         this.createGroup = this.createGroup.bind(this);
+        this.deleteGroup = this.deleteGroup.bind(this);
         this.receiveGroups = this.receiveGroups.bind(this);
 
         this.receiveUsers = this.receiveUsers.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
         this.createUser = this.createUser.bind(this);
     }
 
@@ -79,7 +81,9 @@ class index extends Component {
     }
 
     deleteUser(user) {
-        return API.delete(`/users/${user._id}`).then(this.receiveUsers)
+        return API.delete(`/users/${user._id}`).then(this.receiveUsers).catch(() => {
+            this.showAlert('User can not delete himself.');
+        })
     }
 
     receiveUsers() {
