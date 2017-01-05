@@ -11,8 +11,23 @@ const API = {
         .send(body).then(res => res.body, err => Promise.reject(err)),
     put: (url, body) => request.put(`${API_URL}${url}`).set('Accept', 'application/json').set('x-access-token', getToken())
         .send(body).then(res => res.body, err => Promise.reject(err)),
-    delete: (url) => request.delete(`${API_URL}${url}`).set('x-access-token', getToken()).then(res => res.body, err => Promise.reject(err))
-}
+    delete: (url) => request.delete(`${API_URL}${url}`).set('x-access-token', getToken()).then(res => res.body, err => Promise.reject(err)),
+    upload: (files) => {
+        let FD = new FormData();
+        files.forEach((file) => {
+            FD.append('files[]', file);
+        });
+        let requestOptions = {
+            method: 'POST',
+            headers: {
+                "x-access-token": getToken()
+            },
+            body: FD
+        };
+
+        return fetch(`${API_URL}/upload`, requestOptions).then(res => res.json());
+    }
+};
 
 
 export function getToken() {
