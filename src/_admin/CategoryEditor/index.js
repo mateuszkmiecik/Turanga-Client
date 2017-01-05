@@ -16,7 +16,7 @@ const exampleTask = () => ({
     taskId: uuid.v4(),
     name: 'Example exercise',
     description: '<p>Example description</p>',
-    query: 'SELECT field FROM table'
+    correctQuery: 'SELECT field FROM table'
 });
 
 class CategoryEditor extends Component {

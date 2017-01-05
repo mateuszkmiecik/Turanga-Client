@@ -15,8 +15,9 @@ const TaskEditor = ({task, onChange}) => (
 
             <label className="pt-label">
                 Description:
-                <ReactQuill theme="snow" value={task.description} onChange={(e) => onChange('description', e)}/>
             </label>
+
+            <ReactQuill theme="snow" value={task.description} onChange={(e) => onChange('description', e)}/>
 
             <label className="pt-label">Proper query</label>
             <div
