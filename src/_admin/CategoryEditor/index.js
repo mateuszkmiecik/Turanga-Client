@@ -32,7 +32,8 @@ class CategoryEditor extends Component {
             hidden: false,
             description: '',
             selectedTaskIndex: -1,
-            quillEditors: {}
+            quillEditors: {},
+            databases: []
         };
 
         this.addNewTask = this.addNewTask.bind(this)
@@ -61,7 +62,10 @@ class CategoryEditor extends Component {
                 }
 
                 this.setState(newState)
-            })
+            });
+            API.get('/databases').then(databases => this.setState({
+                databases
+            }))
         }
     }
 
@@ -115,9 +119,9 @@ class CategoryEditor extends Component {
     }
 
 
-    changeTaskAtSelectedIndex(field, value){
+    changeTaskAtSelectedIndex(field, value) {
         let {tasks, selectedTaskIndex: idx} = this.state;
-        let beforePart = tasks.slice(0,idx), afterPart = tasks.slice(idx+1, tasks.length);
+        let beforePart = tasks.slice(0, idx), afterPart = tasks.slice(idx + 1, tasks.length);
         let changedTask = tasks[idx];
         changedTask[field] = value;
         this.setState({
@@ -219,13 +223,18 @@ class CategoryEditor extends Component {
                                     {t.name}
                                 </Link>
                             ))}
-                            {tasks.length === 0 ? <p style={{padding: '0 10px'}}><i className="fa fa-arrow-up"/> Add new exercise</p> : null}
+                            {tasks.length === 0 ?
+                                <p style={{padding: '0 10px'}}><i className="fa fa-arrow-up"/> Add new exercise
+                                </p> : null}
                         </div>
 
                     </div>
                     <div className="relative full-height">
 
-                        {this.state.selectedTaskIndex < 0 ? 'Select task from list on the left.' : <TaskEditor task={tasks[selectedTaskIndex]} onChange={this.changeTaskAtSelectedIndex} onDelete={this.deleteTask}/>}
+                        {this.state.selectedTaskIndex < 0 ? 'Select task from list on the left.' :
+                            <TaskEditor task={tasks[selectedTaskIndex]} onChange={this.changeTaskAtSelectedIndex}
+                                        databases={this.state.databases}
+                                        onDelete={this.deleteTask}/>}
                     </div>
                 </Sidebar>
             </div>

@@ -4,8 +4,9 @@ import ReactQuill from 'react-quill'
 import CodeMirror from 'react-codemirror'
 
 import TagInput from '../../components/TagInput'
+import Typeahead from '../../components/Typeahead'
 
-const TaskEditor = ({task, onChange, onDelete}) => (
+const TaskEditor = ({task, onChange, onDelete, databases}) => (
     <div className="row" style={{paddingLeft: 30}}>
         <div className="col-sm-10">
             <button className="pull-right pt-button pt-small" onClick={() => onDelete()}>
@@ -14,7 +15,19 @@ const TaskEditor = ({task, onChange, onDelete}) => (
 
             <label className="pt-label">
                 Task name:
-                <input type="text" className="pt-input" value={task.name} onChange={(e) => onChange('name', e.target.value)}/>
+                <input type="text" className="pt-input" value={task.name}
+                       onChange={(e) => onChange('name', e.target.value)}/>
+            </label>
+
+            <label className="pt-label">
+                DB engines:
+                <div>
+                    {!!task.engineDB ?
+                        <div className="pt-tag">{task.engineDB.name}</div>
+                        : null }
+
+                </div>
+                <Typeahead items={databases} onValueSelect={e => onChange('engineDB', e)} renderer={db => db.name}/>
             </label>
 
 
@@ -39,13 +52,13 @@ const TaskEditor = ({task, onChange, onDelete}) => (
                 Allowed words:
             </label>
 
-            <TagInput style={{marginBottom: 10}}/>
+            <TagInput tags={task.allowedWords} onChange={words => onChange('allowedWords', words)} style={{marginBottom: 10}}/>
 
             <label className="pt-label">
                 Restricted words:
             </label>
 
-            <TagInput/>
+            <TagInput tags={task.restrictedWords} onChange={words => onChange('restrictedWords', words)}/>
         </div>
     </div>
 )

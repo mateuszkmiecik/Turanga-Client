@@ -22,6 +22,9 @@ class TagInput extends Component {
         let tags = this.state.tags;
         tags.splice(i, 1);
         this.setState({tags: tags});
+        if(!!this.props.onChange){
+            this.props.onChange(tags)
+        }
     }
 
     handleAddition(tag) {
@@ -31,6 +34,9 @@ class TagInput extends Component {
             text: tag
         });
         this.setState({tags: tags});
+        if(!!this.props.onChange){
+            this.props.onChange(tags)
+        }
     }
 
     render() {

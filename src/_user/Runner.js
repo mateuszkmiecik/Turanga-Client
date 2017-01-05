@@ -82,6 +82,19 @@ class Runner extends Component {
                                 <p>
                                     {(category.tasks[0] || {}).description}
                                 </p>
+                                <hr/>
+                                <p>
+                                    Allowed words:
+                                </p>
+
+                                <p>
+                                    Restricted words:
+                                </p>
+
+                                <p>
+                                    Scheme file:
+                                    <a href="#">scheme.pdf</a>
+                                </p>
                             </div>
                         </div>
                     </Content>

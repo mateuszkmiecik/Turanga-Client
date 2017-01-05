@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone'
 
 import {Content, Sidebar} from '../components'
 import Databases from '../services/Databases'
+import API from '../services/API'
 
 class DatabasesManager extends Component {
 
@@ -34,19 +35,23 @@ class DatabasesManager extends Component {
     }
 
     refresh() {
-        Databases.get().then(dbs => this.setState({
-            databases: dbs
+        Databases.get().then(databases => this.setState({
+            databases
         }))
     }
 
-    addNewDatabase(db) {
-        let values = Object.keys(db).map(key => db[key]);
+    addNewDatabase(newDatabase) {
 
-        let allFieldsCorrect = values.every(a => !!a);
+        if(newDatabase.files.length > 0){
+            API.upload(newDatabase.files).then(({filename}) => {
 
-        if (allFieldsCorrect) {
-            Databases.createDB(db).then(this.refresh)
+                let {name, url, user, password, dbName} = newDatabase;
+                return Databases.createDB({
+                    name, url, user, password, dbName, schemeFile: filename
+                })
+            }).then(this.refresh);
         }
+
     }
 
     onInputChange(objectName, fieldName) {
@@ -67,8 +72,6 @@ class DatabasesManager extends Component {
 
         let {databases, newDatabase} = this.state;
         const allCorrect = ['name', 'url', 'user', 'password', 'dbName'].every(field => newDatabase[field].length > 0);
-
-
 
         return (
 
@@ -92,7 +95,7 @@ class DatabasesManager extends Component {
                                                 <th>User</th>
                                                 <th>Pass</th>
                                                 <th>dbName</th>
-                                                <th>Schema file</th>
+                                                <th>Scheme file</th>
                                                 <th/>
                                             </tr>
                                             </thead>
@@ -105,7 +108,7 @@ class DatabasesManager extends Component {
                                                     <td>{db.user}</td>
                                                     <td>{db.password}</td>
                                                     <td>{db.dbName}</td>
-                                                    <td>{db.schemaFile}</td>
+                                                    <td><a href={`http://localhost:8080/static/${db.schemeFile}`} target="_blank">{db.schemeFile}</a></td>
                                                     <td>
                                                         <button className="btn btn-xs"
                                                                 onClick={() => this.removeDB(db)}>
