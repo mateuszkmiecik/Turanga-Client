@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Link} from 'react-router'
 
 import CodeMirror from 'react-codemirror'
-import Categories from '../services/Categories'
+import API from '../services/API'
 import RunnerAPI from '../services/Runner'
 
 import {SideMenu, Content, Sidebar} from '../components'
@@ -29,7 +29,7 @@ class Runner extends Component {
 
     componentDidMount() {
         let {id} = this.props.params;
-        Categories.getCategory(id).then(category => this.setState({category}));
+        API.get(`/categories/${id}`).then(category => this.setState({category}));
     }
 
     render() {

@@ -5,7 +5,7 @@ import {Alert} from '@blueprintjs/core'
 import {Content} from '../components'
 import EditableComponent from '../components/EditableComponent'
 
-import Categories from '../services/Categories'
+import API from '../services/API'
 
 class CategoriesManager extends EditableComponent {
 
@@ -31,7 +31,7 @@ class CategoriesManager extends EditableComponent {
     }
 
     refreshList() {
-        Categories.getCategories().then(categories => this.setState({list: categories}))
+        API.get('/categories').then(categories => this.setState({list: categories}))
     }
 
     handleNewCategoryNameChange(e) {
@@ -50,7 +50,12 @@ class CategoriesManager extends EditableComponent {
     createNewCategory() {
         let {newCategoryName} = this.state;
         if (!!newCategoryName) {
-            Categories.createCategory(newCategoryName).then(this.refreshList).catch((err) => {
+            API.post('/categories',{
+                name: newCategoryName,
+                tasks: [],
+                hidden: false,
+                description: ''
+            }).then(this.refreshList).catch((err) => {
                 this.showAlert(err.response.body.message || 'An error occured. Please try again later.');
             })
         }

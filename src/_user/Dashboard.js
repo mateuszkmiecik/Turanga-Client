@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Categories from '../services/Categories'
+import API from '../services/API'
 import {hashHistory} from 'react-router'
 import {SideMenu, Sidebar, Content} from '../components'
 
@@ -30,7 +30,7 @@ class Dashboard extends Component {
     }
 
     refreshList() {
-        Categories.getCategories().then(categories => this.setState({list: categories}))
+        API.get('/categories').then(categories => this.setState({list: categories}))
     }
 
     runCategory(id) {
@@ -41,21 +41,25 @@ class Dashboard extends Component {
         return (
             <div className="row full-height">
                 <SideMenu menu={this.menuItems}/>
-                <Content>
-                    <h3>Available categories</h3>
+                <Content col="10">
+                    <div className="panel full-height">
+                        <div className="panel-body full-height">
+                            <h3>Available categories</h3>
 
-                    {this.state.list.filter(cat => cat.tasks && cat.tasks.length > 0).map(category => (
-                        <div className="pt-card pt-elevation-0 pt-interactive" key={category._id}
-                             onClick={() => this.runCategory(category._id)}
-                             style={{marginBottom: 10}}>
-                            <h5><a href="#"
-                                   onClick={(e) => {
-                                       e.preventDefault();
-                                       this.runCategory(category._id)
-                                   }}>{category.name}</a></h5>
-                            <p>{category.tasks.length} tasks</p>
+                            {this.state.list.filter(cat => cat.tasks && cat.tasks.length > 0).map(category => (
+                                <div className="pt-card pt-elevation-0 pt-interactive" key={category._id}
+                                     onClick={() => this.runCategory(category._id)}
+                                     style={{marginBottom: 10, marginRight: 10, width: '40%'}}>
+                                    <h5><a href="#"
+                                           onClick={(e) => {
+                                               e.preventDefault();
+                                               this.runCategory(category._id)
+                                           }}>{category.name}</a></h5>
+                                    <p>{category.tasks.length} tasks</p>
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
 
                 </Content>
                 <Sidebar style={{paddingTop: 20}}>

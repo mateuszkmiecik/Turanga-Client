@@ -5,7 +5,7 @@ import c from 'classnames'
 import ReactQuill from 'react-quill'
 import uuid from 'uuid'
 
-import Categories from '../../services/Categories'
+import API from '../../services/API'
 
 import {Content, Sidebar} from '../../components'
 
@@ -46,7 +46,7 @@ class CategoryEditor extends Component {
         window.onbeforeunload = null;
 
         if (id) {
-            Categories.getCategory(id).then(category => {
+            API.get(`/categories/${id}`).then(category => {
                 const {tasks} = category;
 
                 let newState = {
@@ -88,7 +88,7 @@ class CategoryEditor extends Component {
             name, tasks, description, hidden
         };
 
-        Categories.updateCategory(id, category).then(() => {
+        API.put(`/categories/${id}`, category).then(() => {
             window.onbeforeunload = null;
             this.setState({
                 saved: true
