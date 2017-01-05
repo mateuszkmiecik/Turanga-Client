@@ -141,7 +141,6 @@ class CategoryEditor extends Component {
                                 </button>
                             </p>
 
-                            {this.state.saved ? null : <p className="pt-callout pt-intent-warning">Changes have been made.</p>}
                             <hr/>
 
                             {this.state.hidden ? <div className="pt-tag pt-intent-warning pull-right">
