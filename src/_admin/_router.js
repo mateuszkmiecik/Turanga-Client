@@ -8,6 +8,7 @@ import SingleResult from './SingleResult'
 import CategoryEditor from './CategoryEditor'
 import DatabaseManager from './DatabasesManager'
 import Users from './Users'
+import Exams from './Exams'
 import Main from './Main'
 
 class AppRouter extends Component {
@@ -20,6 +21,7 @@ class AppRouter extends Component {
                     <Route path="results" component={Results}/>
                     <Route path="databases" component={DatabaseManager}/>
                     <Route path="users" component={Users}/>
+                    <Route path="exams" component={Exams}/>
                 </Route>
                 <Route path="/categories/:id" component={CategoryEditor}/>
                 <Route path="/results/:id" component={SingleResult}/>

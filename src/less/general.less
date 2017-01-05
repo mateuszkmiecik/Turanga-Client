@@ -74,6 +74,7 @@ p {
   border: 1px solid #ddd;
   padding-top: 64px;
   position: relative;
+  background: #fff;
 
   .quill-toolbar {
     position: absolute;
@@ -126,4 +127,82 @@ label.small-label {
 
 pre {
   box-shadow: none !important;
+}
+
+.exercises-list {
+  background: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 250px;
+  padding-top: 50px;
+  border-right: 1px solid #eee;
+
+  button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+
+  .exercise-entry {
+    padding: 5px;
+    border-top: 1px solid #ddd;
+    display: block;
+    text-decoration: none;
+
+    &.active, &.active:hover {
+      background: #56B2F3;
+      color: #fff;
+    }
+
+    &:hover {
+      background: #eee;
+      text-decoration: none;
+    }
+
+    .number {
+      width: 20px;
+      margin-right: 5px;
+      text-align: right;
+      display: inline-block;
+    }
+  }
+}
+
+
+div.ReactTags__tags {
+  position: relative;
+}
+
+/* Styles for the input */
+div.ReactTags__tagInput {
+  width: 200px;
+  border-radius: 2px;
+  display: inline-block;
+}
+div.ReactTags__tagInput input,
+div.ReactTags__tagInput input:focus {
+  margin: 0;
+  font-size: 12px;
+  width: 100%;
+  border: 1px solid #eee;
+  padding: 8px 10px ;
+  display: block;
+}
+
+/* Styles for selected tags */
+div.ReactTags__selected span.ReactTags__tag {
+  border: 1px solid #ddd;
+  background: #eee;
+  font-size: 12px;
+  display: inline-block;
+  padding: 10px 10px;
+  margin: 0 5px;
+  border-radius: 2px;
+}
+div.ReactTags__selected a.ReactTags__remove {
+  color: #aaa;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 14px;
 }

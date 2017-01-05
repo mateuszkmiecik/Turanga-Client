@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link, hashHistory} from 'react-router'
+import {Alert} from '@blueprintjs/core'
 
 import {Content} from '../components'
 import EditableComponent from '../components/EditableComponent'
@@ -22,6 +23,7 @@ class CategoriesManager extends EditableComponent {
         this.handleFilterChange = this.handleFilterChange.bind(this)
         this.createNewCategory = this.createNewCategory.bind(this)
         this.refreshList = this.refreshList.bind(this)
+        this.showAlert = this.showAlert.bind(this)
     }
 
     componentDidMount() {
@@ -48,8 +50,19 @@ class CategoriesManager extends EditableComponent {
     createNewCategory() {
         let {newCategoryName} = this.state;
         if (!!newCategoryName) {
-            Categories.createCategory(newCategoryName).then(this.refreshList)
+            Categories.createCategory(newCategoryName).then(this.refreshList).catch((err) => {
+                this.showAlert(err.response.body.message || 'An error occured. Please try again later.');
+            })
         }
+    }
+
+
+
+    showAlert(text){
+        this.setState({
+            isAlertOpened: true,
+            alertText: text
+        })
     }
 
     render() {
@@ -96,6 +109,12 @@ class CategoriesManager extends EditableComponent {
                         ))}
                     </div>
                 </div>
+
+                <Alert isOpen={this.state.isAlertOpened} confirmButtonText="Okay" onConfirm={() => this.setState({
+                    isAlertOpened: false
+                })}>
+                    <p>{this.state.alertText}</p>
+                </Alert>
             </Content>
 
         )
