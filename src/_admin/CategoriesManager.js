@@ -58,6 +58,10 @@ class CategoriesManager extends EditableComponent {
             }).then(this.refreshList).catch((err) => {
                 this.showAlert(err.response.body.message || 'An error occured. Please try again later.');
             })
+
+            this.setState({
+                newCategoryName : ""
+            })
         }
     }
 
