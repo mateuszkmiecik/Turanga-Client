@@ -30,6 +30,7 @@ class Exams extends Component {
         this.addExam = this.addExam.bind(this)
         this.showAlert = this.showAlert.bind(this)
         this.getExamList = this.getExamList.bind(this)
+        this.deleteExam = this.deleteExam.bind(this)
     }
 
 
@@ -39,7 +40,7 @@ class Exams extends Component {
 
     }
 
-    getExamList(){
+    getExamList() {
         return API.get('/exams').then(exams => this.setState({
             examsList: exams
         }))
@@ -116,6 +117,10 @@ class Exams extends Component {
 
     }
 
+    deleteExam(exam) {
+        return API.delete(`/exams/${exam._id}`).then(this.getExamList)
+    }
+
 
     render() {
 
@@ -150,7 +155,8 @@ class Exams extends Component {
                                             <div className="col-sm-3">
                                                 <strong>Time limit</strong>
                                                 <p>
-                                                    {exam.timeLimited ? <span>{exam.duration} minutes</span> : <span>n/a</span>}
+                                                    {exam.timeLimited ? <span>{exam.duration} minutes</span> :
+                                                        <span>n/a</span>}
                                                 </p>
                                             </div>
                                             <div className="col-sm-2">
@@ -162,7 +168,7 @@ class Exams extends Component {
                                             <div className="col-sm-2">
                                                 <strong>Actions</strong>
                                                 <div>
-                                                    <button className="pt-button">
+                                                    <button className="pt-button" onClick={() => this.deleteExam(exam)}>
                                                         <i className="fa fa-trash"/>
                                                     </button>
                                                 </div>

@@ -118,8 +118,7 @@ class index extends Component {
                                 <Tab>Groups</Tab>
                             </TabList>
                             <TabPanel>
-                                <UsersList users={users} onCreate={this.createUser} onEdit={this.editUser}
-                                           onDelete={this.deleteUser}/>
+                                <UsersList users={users} onCreate={this.createUser} onDelete={this.deleteUser}/>
                             </TabPanel>
                             <TabPanel>
                                 <GroupsList groups={groups} onCreate={this.createGroup} onDelete={this.deleteGroup}/>

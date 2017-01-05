@@ -2,7 +2,7 @@ import React from 'react';
 import UserForm from './UserForm'
 import {Sidebar} from '../../components'
 
-export default ({users, onCreate, onEdit, onDelete}) => (
+export default ({users, onCreate, onDelete}) => (
     <div className="row">
         <div className="col-sm-7">
             <table className="table table-hover pt-fill pt-striped">
@@ -25,9 +25,6 @@ export default ({users, onCreate, onEdit, onDelete}) => (
                         <td>{u.role}</td>
                         <td>{u.group}</td>
                         <td>
-                            <button className="pt-button pt-small space-right" onClick={() => onEdit(u)}>
-                                <i className="fa fa-edit"/>
-                            </button>
                             <button className="pt-button pt-small" onClick={() => onDelete(u)}>
                                 <i className="fa fa-trash"/>
                             </button>
