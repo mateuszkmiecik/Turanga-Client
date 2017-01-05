@@ -3,7 +3,7 @@ import React from 'react';
 import GroupForm from './GroupForm'
 import {Sidebar} from '../../components'
 
-export default ({groups, onCreate}) => (
+export default ({groups, onCreate, onDelete}) => (
     <div className="row full-height">
         <div className="col-sm-6">
             <table className="table pt-fill pt-striped">
@@ -22,7 +22,7 @@ export default ({groups, onCreate}) => (
                         <td>{g.name}</td>
                         <td>{g.description}</td>
                         <td>
-                            <button className="pt-button pt-small">
+                            <button className="pt-button pt-small" onClick={() => onDelete(g)}>
                                 <i className="fa fa-trash"/>
                             </button>
                         </td>

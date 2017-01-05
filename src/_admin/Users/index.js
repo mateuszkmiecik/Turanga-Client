@@ -32,7 +32,7 @@ class index extends Component {
         this.createUser = this.createUser.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.receiveGroups();
         this.receiveUsers();
     }
@@ -41,8 +41,8 @@ class index extends Component {
         this.setState(reducer(event, this.state));
     }
 
-    createGroup(group){
-        if(!group.name){
+    createGroup(group) {
+        if (!group.name) {
             return false;
         }
 
@@ -51,7 +51,12 @@ class index extends Component {
         });
     }
 
-    receiveGroups(){
+    deleteGroup(group) {
+        return API.delete(`/groups/${group._id}`).then(this.receiveGroups)
+    }
+
+
+    receiveGroups() {
         this.dispatch({
             type: actions.REQUEST_GROUPS
         });
@@ -63,8 +68,8 @@ class index extends Component {
     }
 
 
-    createUser(user){
-        if(!user.username || !user.password){
+    createUser(user) {
+        if (!user.username || !user.password) {
             return false;
         }
 
@@ -73,7 +78,11 @@ class index extends Component {
         });
     }
 
-    receiveUsers(){
+    deleteUser(user) {
+        return API.delete(`/users/${user._id}`).then(this.receiveUsers)
+    }
+
+    receiveUsers() {
         this.dispatch({
             type: actions.REQUEST_USERS
         });
@@ -85,7 +94,7 @@ class index extends Component {
     }
 
 
-    showAlert(text){
+    showAlert(text) {
         this.setState({
             isAlertOpened: true,
             alertText: text
@@ -105,10 +114,11 @@ class index extends Component {
                                 <Tab>Groups</Tab>
                             </TabList>
                             <TabPanel>
-                                <UsersList users={users} onCreate={this.createUser} onEdit={this.editUser} onDelete={this.deleteUser} />
+                                <UsersList users={users} onCreate={this.createUser} onEdit={this.editUser}
+                                           onDelete={this.deleteUser}/>
                             </TabPanel>
                             <TabPanel>
-                                <GroupsList groups={groups} onCreate={this.createGroup} />
+                                <GroupsList groups={groups} onCreate={this.createGroup} onDelete={this.deleteGroup}/>
                             </TabPanel>
                         </Tabs>
 
