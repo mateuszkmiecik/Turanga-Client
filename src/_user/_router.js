@@ -6,6 +6,7 @@ import UserDashboard from './Dashboard'
 import Results from './Results'
 import Runner from './Runner'
 import CategoryDetails from './CategoryDetails'
+import ExamDetails from './ExamDetails'
 import Main from './Main'
 
 class AppRouter extends Component {
@@ -18,8 +19,9 @@ class AppRouter extends Component {
                     <IndexRoute component={UserDashboard}/>
                     <Route path="results" component={Results} />
                     <Route path="category/:id" component={CategoryDetails} />
+                    <Route path="exam/:id" component={ExamDetails} />
                 </Route>
-                <Route path="/runner/:id" component={Runner}/>
+                <Route path="/attempt/:id" component={Runner}/>
 
             </Router>
         )

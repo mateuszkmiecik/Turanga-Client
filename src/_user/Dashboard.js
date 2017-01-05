@@ -12,19 +12,12 @@ class Dashboard extends Component {
             list: [],
 
             // sidebar
-            findExamInput: ''
+            findExamInput: '',
+            foundExams: []
         };
         this.refreshList = this.refreshList.bind(this)
+        this.handleExamSearch = this.handleExamSearch.bind(this)
 
-        this.menuItems = [{
-            url: '/',
-            iconClass: 'fa-home',
-            text: 'Dashboard'
-        }, {
-            url: '/results',
-            iconClass: 'fa-info',
-            text: 'Results'
-        }]
     }
 
     componentDidMount() {
@@ -33,6 +26,18 @@ class Dashboard extends Component {
 
     refreshList() {
         API.get('/categories').then(categories => this.setState({list: categories}))
+    }
+
+    handleExamSearch(e){
+        let findExamInput = e.target.value;
+        this.setState({
+            findExamInput
+        });
+        if(findExamInput.length >= 4){
+            API.post('/exams/search', {query: findExamInput}).then(exams => this.setState({
+                foundExams: exams
+            }))
+        }
     }
 
 
@@ -69,11 +74,16 @@ class Dashboard extends Component {
                                 <div className="pt-input-group .modifier">
                                     <span className="pt-icon pt-icon-search"/>
                                     <input type="text" className="pt-input" placeholder="Exam code..."
-                                           value={this.state.findExamInput} onChange={(e) => this.setState({
-                                        findExamInput: e.target.value
-                                    })}/>
+                                           value={this.state.findExamInput} onChange={this.handleExamSearch}/>
                                     <button className="pt-button pt-minimal pt-intent-primary pt-icon-arrow-right"/>
                                 </div>
+                                <hr/>
+
+                                {this.state.foundExams.map((exam, idx) => (
+                                    <div className="pt-card pt-elevation-0 pt-interactive" key={idx} onClick={() => this.props.router.push(`/exam/${exam._id}`)}>
+                                        <h5><Link to={`/exam/${exam._id}`}>{exam.name}</Link></h5>
+                                    </div>
+                                ))}
                             </Sidebar>
 
                         </div>

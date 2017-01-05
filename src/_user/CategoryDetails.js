@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 
 import {Link} from 'react-router'
+import {Radio, RadioGroup} from '@blueprintjs/core'
 
 import API from '../services/API'
 
@@ -13,7 +14,9 @@ class CategoryDetails extends Component {
         super(props);
 
         this.state = {
-            category: {}
+            category: {},
+            duration: 60,
+            testMode: 'normal'
         }
     }
 
@@ -53,6 +56,30 @@ class CategoryDetails extends Component {
                             <Sidebar col="4"
                                      style={{position: 'absolute', top: 0, right: 0, width: '30%', paddingTop: 15}}>
                                 <h3>Run test</h3>
+
+                                <div>
+                                    <RadioGroup
+                                        label="Test mode"
+                                        onChange={(e) => this.setState({
+                                            testMode: e.target.value
+                                        })}
+                                        selectedValue={this.state.testMode}>
+                                        <Radio label="Normal" value="normal"/>
+                                        <Radio label="Timed" value="time"/>
+                                    </RadioGroup>
+
+                                    {this.state.testMode === 'time' ?
+                                        <label className="pt-label">Duration (in minutes)
+                                            <input type="number" min="1" value={this.state.duration} className="pt-input" onChange={(e) => this.setState({
+                                                duration: e.target.value
+                                            })}/>
+                                        </label> : null}
+
+                                </div>
+
+                                <button className="pt-button pt-large pt-intent-primary" onClick={() => this.props.router.push('/attempt/123')}>
+                                    Start test
+                                </button>
 
                             </Sidebar>
                         </div>

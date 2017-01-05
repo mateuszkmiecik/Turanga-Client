@@ -3,6 +3,7 @@ import {Link} from 'react-router'
 
 import CodeMirror from 'react-codemirror'
 import API from '../services/API'
+import c from 'classnames'
 import RunnerAPI from '../services/Runner'
 
 import {SideMenu, Content, Sidebar} from '../components'
@@ -29,29 +30,55 @@ class Runner extends Component {
 
     componentDidMount() {
         let {id} = this.props.params;
-        API.get(`/categories/${id}`).then(category => this.setState({category}));
+        // API.get(`/categories/${id}`).then(category => this.setState({category}));
     }
 
     render() {
         let {category, queryRun} = this.state;
-        let {id} = this.props.params;
-        let categoryTasksMenu = (category.tasks || []).map(task => ({
-            url: `/runner/${id}?task=`,
-            text: task.description
-        }))
+
+        let {params: {id: attemptId}, location: {query}} = this.props;
         const renderCell = (key) => ((rowIndex) => <Cell>{`${queryRun.results[rowIndex][key]}`}</Cell>);
+
         return !category ? <div>Loading</div> : (
                 <div className="row runner full-height">
 
-                    <SideMenu menu={categoryTasksMenu} activeIndex>
-                        <Link to="/" className="pt-button pt-fill space-bottom">Back to categories</Link>
-                    </SideMenu>
 
 
-                    <Content>
-                        <div className="panel full-height">
+                    <Content col="6">
+                        <div className="panel relative full-height"  style={{padding: '20px 20px 20px 270px'}}>
                             <div className="panel-body">
-                                <h3>{category.name}</h3>
+                                <div className="exercises-list full-height">
+                                    <button className="pt-button pt-intent-primary" onClick={this.addNewTask}>
+                                        Finish test
+                                    </button>
+
+                                    <div className="list full-height">
+                                        <Link to={`/attempt/${attemptId}?task=1`} className={c({"exercise-entry": true, "active": query.task == 1})}>
+                                            <span className="number">1</span>
+                                            Task 1
+                                        </Link>
+
+                                        <Link to={`/attempt/${attemptId}?task=2`} className={c({"exercise-entry": true, "active": query.task == 2})}>
+                                            <span className="number">2</span>
+                                            Task 2
+                                        </Link>
+                                        {/*{tasks.map((t, idx) => (*/}
+                                            {/*<Link to={`/categories/${id}?task=${t.taskId}`} onClick={() => this.setState({*/}
+                                                {/*selectedTaskIndex: idx,*/}
+                                                {/*quillEditors: {},*/}
+                                                {/*saved: true*/}
+                                            {/*})} className={c({"exercise-entry": true, "active": query.task === t.taskId})}*/}
+                                                  {/*key={idx}>*/}
+                                                {/*<span className="number">{idx + 1}</span>*/}
+                                                {/*{t.name}*/}
+                                            {/*</Link>*/}
+                                        {/*))}*/}
+                                        {/*{tasks.length === 0 ? <p style={{padding: '0 10px'}}><i className="fa fa-arrow-up"/> Add new exercise</p> : null}*/}
+                                    </div>
+
+                                </div>
+
+                                <h3>TEST</h3>
                                 <p>
                                     {(category.tasks[0] || {}).description}
                                 </p>
