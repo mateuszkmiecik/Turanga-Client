@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Switch} from '@blueprintjs/core'
+import {Switch, Alert} from '@blueprintjs/core'
 
 import {Content, Sidebar} from '../../components'
 import API from '../../services/API'
@@ -17,18 +17,32 @@ class Exams extends Component {
             categoryNameById: {},
             categoryQuestionsNumberById: {},
             timeLimit: false,
-            duration: 90
+            duration: 90,
+
+            // list
+            examsList: []
 
         };
 
         this.findCategoriesByName = this.findCategoriesByName.bind(this)
         this.selectCategory = this.selectCategory.bind(this)
-        this.removeCategory = this.removeCategory.bind(this)
+        this.selectCategory = this.selectCategory.bind(this)
+        this.addExam = this.addExam.bind(this)
+        this.showAlert = this.showAlert.bind(this)
+        this.getExamList = this.getExamList.bind(this)
     }
 
 
     componentDidMount() {
-        this.findCategoriesByName('Se')
+
+        this.getExamList()
+
+    }
+
+    getExamList(){
+        return API.get('/exams').then(exams => this.setState({
+            examsList: exams
+        }))
     }
 
     findCategoriesByName(name) {
@@ -52,8 +66,15 @@ class Exams extends Component {
 
     }
 
+    showAlert(text) {
+        this.setState({
+            isAlertOpened: true,
+            alertText: text
+        })
+    }
+
     selectCategory(cat) {
-        if (!!this.state.selectedCategories.find(e => e._id == cat._id)) {
+        if (!!this.state.selectedCategories.find(e => e._id === cat._id)) {
             return false;
         }
         this.setState({
@@ -68,10 +89,38 @@ class Exams extends Component {
         })
     }
 
+    addExam() {
+
+        const {newExamName, categoryNameById, categoryQuestionsNumberById, timeLimit, duration} = this.state;
+
+        const exam = {
+            name: newExamName,
+            categoryMap: categoryQuestionsNumberById,
+            categoriesNames: categoryNameById,
+            timeLimited: timeLimit
+        };
+
+        if (timeLimit) {
+            exam.duration = duration;
+        }
+
+        API.post('/exams', exam).then(() => this.setState({
+            newExamName: '',
+            categoryNameById: {},
+            selectedCategories: [],
+            categoryQuestionsNumberById: {},
+            timeLimit: false,
+            duration: 90
+        })).then(this.getExamList).catch(err => this.showAlert(err.response.body.message || 'An error occured. Please try again later.'));
+
+
+    }
+
 
     render() {
 
-        const allCorrect = [this.state.newExamName, Object.keys(this.state.categoryQuestionsNumberById)].every(t => t.length > 0);
+        const {newExamName, categoryQuestionsNumberById, examsList} = this.state;
+        const allCorrect = [newExamName, Object.keys(categoryQuestionsNumberById)].every(t => t.length > 0);
 
 
         return (
@@ -85,28 +134,43 @@ class Exams extends Component {
 
                                 <h3>Exams</h3>
 
-                                <div className="pt-card pt-elevation-0 pt-interactive space-bottom"
-                                     onClick={() => this.props.router.push('/results/1')}>
-                                    <div className="row">
-                                        <div className="col-sm-6">
-                                            <strong>Categories</strong>
-                                            <div>User 1 - 12 questions</div>
-                                            <div>User 1 - 12 questions</div>
-                                            <div>User 1 - 12 questions</div>
-                                        </div>
-                                        <div className="col-sm-3">
-                                            <strong>Date</strong>
-                                            <p>{new Date().toDateString()}</p>
-                                        </div>
-                                        <div className="col-sm-3">
-                                            <strong>Result</strong>
-                                            <p>4/10</p>
-                                            <div className="pt-progress-bar pt-intent-primary pt-no-animation">
-                                                <div className="pt-progress-meter" style={{"width": '40%'}}></div>
+
+                                {examsList.map((exam, idx) => (
+                                    <div className="pt-card pt-elevation-0 pt-interactive space-bottom" key={idx}>
+                                        <h4>{exam.name}</h4>
+                                        <div className="row">
+                                            <div className="col-sm-5">
+                                                <strong>Categories</strong>
+                                                {Object.keys(exam.categoryMap).map((_id, idx) => (
+                                                    <div key={idx}>
+                                                        {exam.categoriesNames[_id]} - {exam.categoryMap[_id]} exercises
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className="col-sm-3">
+                                                <strong>Time limit</strong>
+                                                <p>
+                                                    {exam.timeLimited ? <span>{exam.duration} minutes</span> : <span>n/a</span>}
+                                                </p>
+                                            </div>
+                                            <div className="col-sm-2">
+                                                <strong>Exam code</strong>
+                                                <p>
+                                                    {exam.examCode}
+                                                </p>
+                                            </div>
+                                            <div className="col-sm-2">
+                                                <strong>Actions</strong>
+                                                <div>
+                                                    <button className="pt-button">
+                                                        <i className="fa fa-trash"/>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                ))}
+
 
                             </div>
 
@@ -192,7 +256,9 @@ class Exams extends Component {
 
                                 <hr/>
 
-                                <button disabled={!allCorrect} className="pt-button">Add new exam</button>
+                                <button disabled={!allCorrect} className="pt-button" onClick={this.addExam}>Add new
+                                    exam
+                                </button>
 
 
                             </Sidebar>
@@ -200,6 +266,12 @@ class Exams extends Component {
 
                     </div>
                 </div>
+
+                <Alert isOpen={this.state.isAlertOpened} confirmButtonText="Okay" onConfirm={() => this.setState({
+                    isAlertOpened: false
+                })}>
+                    <p>{this.state.alertText}</p>
+                </Alert>
             </Content>
         );
     }

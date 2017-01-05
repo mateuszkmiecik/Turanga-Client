@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router'
-import CodeMirror from 'react-codemirror'
 import {Switch} from '@blueprintjs/core'
 import c from 'classnames'
 import ReactQuill from 'react-quill'
 import uuid from 'uuid'
 
-import {onInputChange} from '../../services/utils'
 import Categories from '../../services/Categories'
 
 import {Content, Sidebar} from '../../components'

@@ -100,10 +100,12 @@ class DatabasesManager extends Component {
                                             {databases.map((db, idx) => (
                                                 <tr key={db._id}>
                                                     <td>{idx + 1}</td>
+                                                    <td>{db.name}</td>
                                                     <td>{db.url}</td>
                                                     <td>{db.user}</td>
                                                     <td>{db.password}</td>
                                                     <td>{db.dbName}</td>
+                                                    <td>{db.schemaFile}</td>
                                                     <td>
                                                         <button className="btn btn-xs"
                                                                 onClick={() => this.removeDB(db)}>
