@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import API from '../services/API'
 import {Link} from 'react-router'
 import {Sidebar, Content} from '../components'
+import moment from 'moment'
 
 class Dashboard extends Component {
 
@@ -60,6 +61,8 @@ class Dashboard extends Component {
                                          onClick={() => this.props.router.push(`/attempt/${attempt._id}`)}
                                          style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
                                         <h5><Link to={`/category/${attempt._id}`}>{attempt.name}</Link></h5>
+                                        <p>Started: {moment(attempt.dateStarted).format("HH:mm D-M-YYYY")}</p>
+                                        <p>Last update: {moment(attempt.lastUpdate).format("HH:mm D-M-YYYY")}</p>
                                     </div>
                                 ))}
                                 </div>
