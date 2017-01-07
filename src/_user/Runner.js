@@ -1,13 +1,10 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router'
-import {Dialog} from '@blueprintjs/core'
 
 import CodeMirror from 'react-codemirror'
 import API from '../services/API'
 import c from 'classnames'
 import RunnerAPI from '../services/Runner'
-
-import {SideMenu, Content, Sidebar} from '../components'
 
 
 import {Table, Column, Cell} from '@blueprintjs/table'
@@ -40,6 +37,8 @@ class Runner extends Component {
     render() {
         let {attempt, queryRun} = this.state;
         let {params: {id: attemptId}, location: {query}} = this.props;
+
+        let currentTask = attempt.tasks.find(task => task.taskId === query.task) || {};
         const renderCell = (key) => ((rowIndex) => <Cell>{`${queryRun.results[rowIndex][key]}`}</Cell>);
 
         return (
@@ -53,8 +52,8 @@ class Runner extends Component {
                     <div className="list full-height">
                         {attempt.tasks.map((task, idx) => (
                             <Link to={`/attempt/${attemptId}?task=${task.taskId}`} key={task.taskId}
-                                  className={c({"exercise-entry": true, "active": query.task == task.taskId})}>
-                                <span className="number">{idx+1}</span>
+                                  className={c({"exercise-entry": true, "active": query.task === task.taskId})}>
+                                <span className="number">{idx + 1}</span>
                                 {task.name}
                             </Link>
                         ))}
@@ -66,13 +65,8 @@ class Runner extends Component {
                     <div className="panel-body  flexbox-parent full-height" style={{padding: 0}}>
 
                         <div className="desc" style={{height: 100, padding: 10}}>
-                            <h3>{attempt.name}</h3>
-                            <p>
-                                Example exercise description: Lorem ipsum dolor sit amet, consectetur adipisicing
-                                elit. Amet eveniet hic minus quidem soluta! Aliquam corporis cumque cupiditate
-                                eligendi eos esse minima, necessitatibus optio, quas quisquam sequi ut! A, quisquam.
-                            </p>
-
+                            <h3>{currentTask.name}</h3>
+                            <p>{currentTask.description}</p>
                         </div>
                         <div className="flexbox-item-grow fill-area">
                             <div style={{width: '100%'}}>
@@ -92,10 +86,14 @@ class Runner extends Component {
                                                         Run query
                                                     </button>
                                                     {queryRun ? ( queryRun.correct ?
-                                                            <span
-                                                                className="pt-tag pt-intent-success">Correct</span> :
-                                                            <span
-                                                                className="pt-tag pt-intent-danger">Wrong</span> ) : null  }
+                                                                <span
+                                                                    className="pt-tag pt-intent-success">Correct</span> :
+                                                                <span className="pt-tag pt-intent-danger">Wrong</span>
+                                                        ) : null  }
+
+                                                    {queryRun ? <span>{queryRun.errorMessage}</span> : null  }
+
+
 
 
                                                 </div>
@@ -103,12 +101,23 @@ class Runner extends Component {
                                         </div>
                                     </div>
                                     <div className="col-sm-3" style={{paddingRight: 30, padding: 15}}>
-                                        <p>
-                                            Required words:
-                                        </p>
-                                        <p>
-                                            Forbidden words:
-                                        </p>
+
+                                        {currentTask.requiredWords && currentTask.requiredWords.length > 0 ?
+                                            <p>
+                                                <label>Required words:</label>
+                                                {currentTask.requiredWords.map(word => (
+                                                    <span className="pt-tag" key={word.id}>{word.text}</span>
+                                                ))}
+
+                                            </p> : null }
+                                        {currentTask.forbiddenWords && currentTask.forbiddenWords.length > 0 ?
+                                            <p>
+                                                <label>Required words:</label>
+                                                {currentTask.forbiddenWords.map(word => (
+                                                    <span className="pt-tag" key={word.id}>{word.text}</span>
+                                                ))}
+
+                                            </p> : null }
 
                                         <p>
                                             Scheme file:

@@ -15,6 +15,8 @@ class CategoryDetails extends Component {
         this.state = {
             exam: {}
         }
+
+        this.handleStartTest = this.handleStartTest.bind(this)
     }
 
     componentDidMount() {
@@ -25,6 +27,13 @@ class CategoryDetails extends Component {
                 exam
             }))
         }
+
+    }
+
+
+    handleStartTest() {
+        const {id} = this.props.params;
+        API.post(`/student/exams/${id}`).then(attempt => this.props.router.push(`/attempt/${attempt._id}`))
 
     }
 
@@ -60,7 +69,7 @@ class CategoryDetails extends Component {
 
 
 
-                                <button className="pt-button pt-large pt-intent-primary">
+                                <button className="pt-button pt-large pt-intent-primary" onClick={this.handleStartTest}>
                                     Start exam
                                 </button>
 
