@@ -42,7 +42,6 @@ class Runner extends Component {
         let {params: {id: attemptId}, location: {query}} = this.props;
         const renderCell = (key) => ((rowIndex) => <Cell>{`${queryRun.results[rowIndex][key]}`}</Cell>);
 
-
         return (
             <div className="row runner relative full-height" style={{padding: '20px 20px 20px 270px'}}>
 
@@ -105,10 +104,10 @@ class Runner extends Component {
                                     </div>
                                     <div className="col-sm-3" style={{paddingRight: 30, padding: 15}}>
                                         <p>
-                                            Allowed words:
+                                            Required words:
                                         </p>
                                         <p>
-                                            Restricted words:
+                                            Forbidden words:
                                         </p>
 
                                         <p>
