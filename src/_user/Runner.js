@@ -87,7 +87,7 @@ class Runner extends Component {
                                         <div className="panel-footer">
                                             <div className="row">
                                                 <div className="col-sm-12">
-                                                    <button className="pt-button space-right pull-right"
+                                                    <button className="pt-button pt-intent-primary space-right pull-right"
                                                             onClick={this.handleQuerySend}>
                                                         Run query
                                                     </button>
