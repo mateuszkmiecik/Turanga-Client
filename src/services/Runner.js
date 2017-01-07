@@ -1,7 +1,7 @@
 import API from './API'
 
-export function runQuery(body){
-    return API.post('/query', body);
+export function runQuery({id, attId, query, correctQuery}){
+    return API.post(`/student/attempts/query/${id}/${attId}`, {query});
 }
 
 export default {runQuery}

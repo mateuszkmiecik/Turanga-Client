@@ -87,8 +87,8 @@ class Runner extends Component {
                                                     </button>
                                                     {queryRun ? ( queryRun.correct ?
                                                                 <span
-                                                                    className="pt-tag pt-intent-success">Correct</span> :
-                                                                <span className="pt-tag pt-intent-danger">Wrong</span>
+                                                                    className="pt-tag pt-intent-success space-right">Correct</span> :
+                                                                <span className="pt-tag pt-intent-danger space-right">Wrong</span>
                                                         ) : null  }
 
                                                     {queryRun ? <span>{queryRun.errorMessage}</span> : null  }
@@ -160,9 +160,12 @@ class Runner extends Component {
     }
 
     handleQuerySend() {
+        let {location: {query}} = this.props;
+        let currentTask = this.state.attempt.tasks.find(task => task.taskId === query.task) || {};
         RunnerAPI.runQuery({
             query: this.state.currentQuery,
-            correctQuery: this.state.currentTask.correctQuery
+            attId: this.state.attempt._id,
+            id: currentTask.taskId
         }).then(result => this.setState({
             queryRun: result
         }))
