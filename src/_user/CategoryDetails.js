@@ -17,17 +17,25 @@ class CategoryDetails extends Component {
             category: {},
             duration: 60,
             testMode: 'normal'
-        }
+        };
+
+        this.handleStartTest = this.handleStartTest.bind(this)
     }
 
     componentDidMount() {
 
         const {id} = this.props.params;
         if (id) {
-            API.get(`/categories/${id}`).then(category => this.setState({
+            API.get(`/student/categories/${id}`).then(category => this.setState({
                 category
             }))
         }
+
+    }
+
+    handleStartTest() {
+        const {id} = this.props.params;
+        API.post(`/student/categories/${id}`).then(attempt => console.log(attempt))
 
     }
 
@@ -70,14 +78,16 @@ class CategoryDetails extends Component {
 
                                     {this.state.testMode === 'time' ?
                                         <label className="pt-label">Duration (in minutes)
-                                            <input type="number" min="1" value={this.state.duration} className="pt-input" onChange={(e) => this.setState({
+                                            <input type="number" min="1" value={this.state.duration}
+                                                   className="pt-input" onChange={(e) => this.setState({
                                                 duration: e.target.value
                                             })}/>
                                         </label> : null}
 
                                 </div>
 
-                                <button className="pt-button pt-large pt-intent-primary" onClick={() => this.props.router.push('/attempt/123')}>
+                                <button className="pt-button pt-large pt-intent-primary"
+                                        onClick={() => this.handleStartTest()}>
                                     Start test
                                 </button>
 

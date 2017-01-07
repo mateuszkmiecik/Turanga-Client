@@ -9,7 +9,8 @@ class Dashboard extends Component {
         super(props)
 
         this.state = {
-            list: [],
+            attempts: [],
+            categories: [],
 
             // sidebar
             findExamInput: '',
@@ -25,16 +26,17 @@ class Dashboard extends Component {
     }
 
     refreshList() {
-        API.get('/categories').then(categories => this.setState({list: categories}))
+        API.get('/student/categories').then(categories => this.setState({categories}))
+        API.get('/student/attempts').then(attempts => this.setState({attempts}))
     }
 
-    handleExamSearch(e){
+    handleExamSearch(e) {
         let findExamInput = e.target.value;
         this.setState({
             findExamInput
         });
-        if(findExamInput.length >= 4){
-            API.post('/exams/search', {query: findExamInput}).then(exams => this.setState({
+        if (findExamInput.length >= 4) {
+            API.post('/student/exams/search', {query: findExamInput}).then(exams => this.setState({
                 foundExams: exams
             }))
         }
@@ -52,20 +54,29 @@ class Dashboard extends Component {
 
                                 <h3>Current exams</h3>
 
-                                <p>No current exams.</p>
+                                <div className="clearfix">
+                                {this.state.attempts.map(attempt => (
+                                    <div className="pt-card pt-elevation-0 pt-interactive" key={attempt._id}
+                                         onClick={() => this.props.router.push(`/attempt/${attempt._id}`)}
+                                         style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
+                                        <h5><Link to={`/category/${attempt._id}`}>{attempt.name}</Link></h5>
+                                    </div>
+                                ))}
+                                </div>
 
                                 <hr/>
 
                                 <h3>Available categories</h3>
 
-                                {this.state.list.filter(cat => cat.tasks && cat.tasks.length > 0).map(category => (
+                                {this.state.categories.map(category => (
                                     <div className="pt-card pt-elevation-0 pt-interactive" key={category._id}
                                          onClick={() => this.props.router.push(`/category/${category._id}`)}
                                          style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
                                         <h5><Link to={`/category/${category._id}`}>{category.name}</Link></h5>
-                                        <p>{category.tasks.length} exercises</p>
+                                        <p>{category.exercisesNumber} exercises</p>
                                     </div>
-                                ))}</div>
+                                ))}
+                            </div>
 
 
                             <Sidebar col="4"
@@ -80,7 +91,8 @@ class Dashboard extends Component {
                                 <hr/>
 
                                 {this.state.foundExams.map((exam, idx) => (
-                                    <div className="pt-card pt-elevation-0 pt-interactive" key={idx} onClick={() => this.props.router.push(`/exam/${exam._id}`)}>
+                                    <div className="pt-card pt-elevation-0 pt-interactive" key={idx}
+                                         onClick={() => this.props.router.push(`/exam/${exam._id}`)}>
                                         <h5><Link to={`/exam/${exam._id}`}>{exam.name}</Link></h5>
                                     </div>
                                 ))}

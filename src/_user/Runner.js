@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router'
+import {Dialog} from '@blueprintjs/core'
 
 import CodeMirror from 'react-codemirror'
 import API from '../services/API'
@@ -30,8 +31,16 @@ class Runner extends Component {
 
     componentDidMount() {
         let {id} = this.props.params;
+        window.onbeforeunload = function () {
+            return true;
+        };
         // API.get(`/categories/${id}`).then(category => this.setState({category}));
     }
+
+    componentWillUnmount() {
+        window.onbeforeunload = null;
+    }
+
 
     render() {
         let {category, queryRun} = this.state;
@@ -43,9 +52,8 @@ class Runner extends Component {
                 <div className="row runner full-height">
 
 
-
                     <Content col="6">
-                        <div className="panel relative full-height"  style={{padding: '20px 20px 20px 270px'}}>
+                        <div className="panel relative full-height" style={{padding: '20px 20px 20px 270px'}}>
                             <div className="panel-body">
                                 <div className="exercises-list full-height">
                                     <button className="pt-button pt-intent-primary" onClick={this.addNewTask}>
@@ -53,34 +61,26 @@ class Runner extends Component {
                                     </button>
 
                                     <div className="list full-height">
-                                        <Link to={`/attempt/${attemptId}?task=1`} className={c({"exercise-entry": true, "active": query.task == 1})}>
+                                        <Link to={`/attempt/${attemptId}?task=1`}
+                                              className={c({"exercise-entry": true, "active": query.task == 1})}>
                                             <span className="number">1</span>
                                             Task 1
                                         </Link>
 
-                                        <Link to={`/attempt/${attemptId}?task=2`} className={c({"exercise-entry": true, "active": query.task == 2})}>
+                                        <Link to={`/attempt/${attemptId}?task=2`}
+                                              className={c({"exercise-entry": true, "active": query.task == 2})}>
                                             <span className="number">2</span>
                                             Task 2
                                         </Link>
-                                        {/*{tasks.map((t, idx) => (*/}
-                                            {/*<Link to={`/categories/${id}?task=${t.taskId}`} onClick={() => this.setState({*/}
-                                                {/*selectedTaskIndex: idx,*/}
-                                                {/*quillEditors: {},*/}
-                                                {/*saved: true*/}
-                                            {/*})} className={c({"exercise-entry": true, "active": query.task === t.taskId})}*/}
-                                                  {/*key={idx}>*/}
-                                                {/*<span className="number">{idx + 1}</span>*/}
-                                                {/*{t.name}*/}
-                                            {/*</Link>*/}
-                                        {/*))}*/}
-                                        {/*{tasks.length === 0 ? <p style={{padding: '0 10px'}}><i className="fa fa-arrow-up"/> Add new exercise</p> : null}*/}
                                     </div>
 
                                 </div>
 
                                 <h3>TEST</h3>
                                 <p>
-                                    {(category.tasks[0] || {}).description}
+                                    Example exercise description: Lorem ipsum dolor sit amet, consectetur adipisicing
+                                    elit. Amet eveniet hic minus quidem soluta! Aliquam corporis cumque cupiditate
+                                    eligendi eos esse minima, necessitatibus optio, quas quisquam sequi ut! A, quisquam.
                                 </p>
                                 <hr/>
                                 <p>
@@ -113,8 +113,8 @@ class Runner extends Component {
                                             Run query
                                         </button>
                                         {queryRun ? ( queryRun.correct ?
-                                            <span className="pt-tag pt-intent-success">Correct</span> :
-                                            <span className="pt-tag pt-intent-danger">Wrong</span> ) : null  }
+                                                <span className="pt-tag pt-intent-success">Correct</span> :
+                                                <span className="pt-tag pt-intent-danger">Wrong</span> ) : null  }
 
 
                                     </div>
@@ -151,7 +151,10 @@ class Runner extends Component {
     }
 
     handleQuerySend() {
-        RunnerAPI.runQuery({query: this.state.currentQuery, correctQuery: this.state.currentTask.correctQuery}).then(result => this.setState({
+        RunnerAPI.runQuery({
+            query: this.state.currentQuery,
+            correctQuery: this.state.currentTask.correctQuery
+        }).then(result => this.setState({
             queryRun: result
         }))
     }

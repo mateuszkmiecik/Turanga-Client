@@ -40,8 +40,9 @@ class TagInput extends Component {
     }
 
     render() {
+        const {className, style} = this.props;
         return (
-            <div {...this.props}>
+            <div {...{className, style}}>
                 <ReactTags tags={this.state.tags}
                            autofocus={false}
                            handleDelete={this.handleDelete}
