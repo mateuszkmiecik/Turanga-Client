@@ -23,7 +23,7 @@ export default ({users, onCreate, onDelete}) => (
                         <td>{u.username}</td>
                         <td>{u.name || 'n/a'}</td>
                         <td>{u.role}</td>
-                        <td>{u.group}</td>
+                        <td>{(u.group || {}).name}</td>
                         <td>
                             <button className="pt-button pt-small" onClick={() => onDelete(u)}>
                                 <i className="fa fa-trash"/>

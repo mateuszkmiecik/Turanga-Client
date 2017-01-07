@@ -54,7 +54,10 @@ class index extends Component {
     }
 
     deleteGroup(group) {
-        return API.delete(`/groups/${group._id}`).then(this.receiveGroups)
+        return API.delete(`/groups/${group._id}`).then(() => {
+            this.receiveGroups()
+            this.receiveUsers()
+        })
     }
 
 
