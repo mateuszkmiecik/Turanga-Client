@@ -31,6 +31,11 @@ class Login extends Component {
                     <p><input type="password"
                               placeholder="Password"
                               onChange={this.handlePasswordChange}
+                              onKeyUp={(e) => {
+                                  if(e.key == 'Enter'){
+                                      this.handleLoginAction(e)
+                                  }
+                              }}
                               value={password}/></p>
 
                     <button onClick={this.handleLoginAction}>Login</button>
