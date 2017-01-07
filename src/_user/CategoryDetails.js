@@ -45,17 +45,19 @@ class CategoryDetails extends Component {
         const {category} = this.state;
 
         return (
-            <Content col="10">
-                <div className="panel relative full-height">
+            <Content col="8">
+                <div className="panel relative half-height">
                     <div className="panel-body full-height">
 
                         <div className="row">
                             <div className="col-sm-8">
 
-                                <Link to="/" className="pt-button space-bottom">
-                                    <i className="fa fa-arrow-left"/>
-                                </Link>
-                                <h3>Category: {category.name}</h3>
+
+                                <h3>
+                                    <Link to="/" className="pt-button space-right">
+                                        <i className="fa fa-arrow-left"/>
+                                    </Link>
+                                    Category: {category.name}</h3>
 
                                 <div dangerouslySetInnerHTML={{__html: category.description}}></div>
 
