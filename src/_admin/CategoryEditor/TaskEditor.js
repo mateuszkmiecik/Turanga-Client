@@ -49,16 +49,16 @@ const TaskEditor = ({task, onChange, onDelete, databases}) => (
             </div>
 
             <label className="pt-label">
-                Allowed words:
+                Required words:
             </label>
 
-            <TagInput tags={task.allowedWords} onChange={words => onChange('allowedWords', words)} style={{marginBottom: 10}}/>
+            <TagInput tags={task.requiredWords} onChange={words => onChange('requiredWords', words)} style={{marginBottom: 10}}/>
 
             <label className="pt-label">
-                Restricted words:
+                Forbidden words:
             </label>
 
-            <TagInput tags={task.restrictedWords} onChange={words => onChange('restrictedWords', words)}/>
+            <TagInput tags={task.forbiddenWords} onChange={words => onChange('forbiddenWords', words)}/>
         </div>
     </div>
 )
