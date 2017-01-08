@@ -3,8 +3,9 @@ import React from 'react';
 import ReactQuill from 'react-quill'
 import CodeMirror from 'react-codemirror'
 
+import Select from 'react-select'
+
 import TagInput from '../../components/TagInput'
-import Typeahead from '../../components/Typeahead'
 
 const TaskEditor = ({task, onChange, onDelete, databases}) => (
     <div className="row" style={{paddingLeft: 30}}>
@@ -20,15 +21,11 @@ const TaskEditor = ({task, onChange, onDelete, databases}) => (
             </label>
 
             <label className="pt-label">
-                Databases:
-                <div>
-                    {!!task.engineDB ?
-                        <div className="pt-tag">{task.engineDB.name}</div>
-                        : null }
-
-                </div>
-                <Typeahead items={databases} onValueSelect={e => onChange('engineDB', e)} renderer={db => db.name}/>
+                DB engines:
+                <Select multi={true} value={task.engineDB} labelKey={"name"}
+                        onChange={dbs => onChange('engineDB', dbs)} options={databases}/>
             </label>
+
 
 
             <label className="pt-label">

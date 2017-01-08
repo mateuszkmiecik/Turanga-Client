@@ -11,7 +11,9 @@ import 'quill/dist/quill.snow.css';
 import '@blueprintjs/core/dist/blueprint.css'
 import '@blueprintjs/table/dist/table.css'
 
+import 'react-select/dist/react-select.css';
 import './less/style.less';
+
 
 
 import { FocusStyleManager } from "@blueprintjs/core";
