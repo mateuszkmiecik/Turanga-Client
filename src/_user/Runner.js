@@ -17,6 +17,7 @@ class Runner extends Component {
         this.state = {
             currentQuery: '',
             attempt: {
+                _id: {},
                 description: '',
                 tasks: []
             },
@@ -74,7 +75,7 @@ class Runner extends Component {
 
                         <div className="desc" style={{height: 100, padding: 10}}>
                             <h3>{currentTask.name}</h3>
-                            <div dangerouslySetInnerHTML={{__html: currentTask.description }}/>
+                            <div dangerouslySetInnerHTML={{__html: currentTask.description}}/>
                         </div>
                         <div className="flexbox-item-grow fill-area">
                             <div style={{width: '100%'}}>
@@ -100,8 +101,6 @@ class Runner extends Component {
                                                         ) : null  }
 
                                                     {queryRun ? <span>{queryRun.errorMessage}</span> : null  }
-
-
 
 
                                                 </div>
@@ -144,17 +143,17 @@ class Runner extends Component {
                                                 ))}
                                             </Table>
                                             : (
-                                                <div className="pt-non-ideal-state padding-top">
-                                                    <div
-                                                        className="pt-non-ideal-state-visual pt-non-ideal-state-icon">
-                                                        <span className="pt-icon pt-icon-heat-grid"/>
-                                                    </div>
-                                                    <h4 className="pt-non-ideal-state-title">No results</h4>
-                                                    <div className="pt-non-ideal-state-description">
-                                                        Run query to show results.
-                                                    </div>
+                                            <div className="pt-non-ideal-state padding-top">
+                                                <div
+                                                    className="pt-non-ideal-state-visual pt-non-ideal-state-icon">
+                                                    <span className="pt-icon pt-icon-heat-grid"/>
                                                 </div>
-                                            )
+                                                <h4 className="pt-non-ideal-state-title">No results</h4>
+                                                <div className="pt-non-ideal-state-description">
+                                                    Run query to show results.
+                                                </div>
+                                            </div>
+                                        )
                                         }
                                     </div>
                                 </div>
@@ -168,15 +167,26 @@ class Runner extends Component {
     }
 
     handleQuerySend() {
-        let {location: {query}} = this.props;
-        let currentTask = this.state.attempt.tasks.find(task => task.taskId === query.task) || {};
-        RunnerAPI.runQuery({
-            query: this.state.currentQuery,
-            attId: this.state.attempt._id,
-            id: currentTask.taskId
-        }).then(result => this.setState({
-            queryRun: result
-        }))
+        let {id} = this.props.params;
+
+        API.get(`/student/attempts/${id}`).then(result => {
+            if (result.finished) {
+                API.put(`/student/attempts/${id}/finish`).then(() => {
+                    alert("You can not continue on this attempt.");
+                    this.props.router.push('/');
+                });
+            } else {
+                let {location: {query}} = this.props;
+                let currentTask = this.state.attempt.tasks.find(task => task.taskId === query.task) || {};
+                RunnerAPI.runQuery({
+                    query: this.state.currentQuery,
+                    attId: this.state.attempt._id,
+                    id: currentTask.taskId
+                }).then(result => this.setState({
+                    queryRun: result
+                }))
+            }
+        })
     }
 }
 
