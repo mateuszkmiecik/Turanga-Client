@@ -35,7 +35,7 @@ class CategoryDetails extends Component {
 
     handleStartTest() {
         const {id} = this.props.params;
-        API.post(`/student/categories/${id}`).then(attempt => this.props.router.push(`/attempt/${attempt._id}`))
+        API.post(`/student/categories/${id}`, {duration : this.state.duration}).then(attempt => this.props.router.push(`/attempt/${attempt._id}`))
 
     }
 
