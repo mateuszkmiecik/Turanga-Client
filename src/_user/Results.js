@@ -40,7 +40,7 @@ class Results extends Component {
                 <div className="panel results full-height">
                     <div className="panel-body">
                         <h3>Results</h3>
-
+                        <hr/>
                         <Tabs>
                             <TabList className="pt-large">
                                 <Tab>Categories</Tab>

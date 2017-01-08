@@ -58,6 +58,7 @@ class CategoryDetails extends Component {
                                         <i className="fa fa-arrow-left"/>
                                     </Link>
                                     Category: {category.name}</h3>
+                                <hr/>
 
                                 <div dangerouslySetInnerHTML={{__html: category.description}}></div>
 

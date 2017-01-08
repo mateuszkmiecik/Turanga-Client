@@ -138,6 +138,7 @@ class Exams extends Component {
 
 
                                 <h3>Exams</h3>
+                                <hr/>
 
 
                                 {examsList.map((exam, idx) => (

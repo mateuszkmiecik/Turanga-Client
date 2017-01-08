@@ -103,7 +103,7 @@ class DatabasesManager extends Component {
                             <div className="col-sm-8 full-height">
 
                                 <h3>Databases</h3>
-
+                                <hr/>
 
                                 {databases.length > 0 ? (
                                         <table className="table table-bordered">

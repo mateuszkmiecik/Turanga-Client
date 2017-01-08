@@ -56,6 +56,7 @@ class ExamDetails extends Component {
 
                                     Exam: {exam.name}</h3>
 
+                                <hr/>
                                 <p>
                                     <strong>Time
                                         limit:</strong> {exam.timeLimited ? `${exam.duration} minutes` : 'no time limit'}
