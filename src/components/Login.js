@@ -32,7 +32,7 @@ class Login extends Component {
                               placeholder="Password"
                               onChange={this.handlePasswordChange}
                               onKeyUp={(e) => {
-                                  if(e.key == 'Enter'){
+                                  if(e.key === 'Enter'){
                                       this.handleLoginAction(e)
                                   }
                               }}

@@ -98,7 +98,7 @@ class CategoryEditor extends Component {
         this.setState({
             saved: false,
             tasks: newTaskList,
-            selectedTaskIndex: newTaskList.length == 0 ? -1 : 0
+            selectedTaskIndex: newTaskList.length === 0 ? -1 : 0
         })
     }
 
