@@ -66,7 +66,7 @@ class Dashboard extends Component {
                                     <div className="pt-card pt-elevation-0 pt-interactive" key={attempt._id}
                                          onClick={() => this.props.router.push(`/attempt/${attempt._id}`)}
                                          style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
-                                        <h5><Link to={`/category/${attempt._id}`}>{attempt.name}</Link></h5>
+                                        <h5><Link to={`/attempt/${attempt._id}`}>{attempt.name}</Link></h5>
                                         <p>Started: {moment(attempt.dateStarted).format("HH:mm D-M-YYYY")}</p>
                                         <p>Last update: {moment(attempt.lastUpdate).format("HH:mm D-M-YYYY")}</p>
                                     </div>
@@ -81,7 +81,7 @@ class Dashboard extends Component {
                                         <div className="pt-card pt-elevation-0 pt-interactive" key={attempt._id}
                                              onClick={() => this.props.router.push(`/attempt/${attempt._id}`)}
                                              style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
-                                            <h5><Link to={`/exam/${attempt._id}`}>{attempt.name}</Link></h5>
+                                            <h5><Link to={`/attempt/${attempt._id}`}>{attempt.name}</Link></h5>
                                             <p>Started: {moment(attempt.dateStarted).format("HH:mm D-M-YYYY")}</p>
                                             <p>Last update: {moment(attempt.lastUpdate).format("HH:mm D-M-YYYY")}</p>
                                         </div>
