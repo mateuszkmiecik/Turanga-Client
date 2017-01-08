@@ -20,6 +20,7 @@ class Dashboard extends Component {
         };
         this.refreshList = this.refreshList.bind(this)
         this.handleExamSearch = this.handleExamSearch.bind(this)
+        this.handleChooseAttempt = this.handleChooseAttempt.bind(this)
 
     }
 
@@ -30,11 +31,24 @@ class Dashboard extends Component {
     refreshList() {
         API.get('/student/categories').then(categories => this.setState({categories}))
         API.get('/student/attempts/cat?isFinished=false').then(attempts => {
-            this.setState({practiceAttempts : attempts});
+            this.setState({practiceAttempts: attempts});
         });
         API.get('/student/attempts/ex?isFinished=false').then(attempts => {
-            this.setState({examAttempts : attempts});
+            this.setState({examAttempts: attempts});
         });
+    }
+
+    handleChooseAttempt(attempt) {
+        API.get(`/student/attempts/${attempt._id}`).then(result => {
+            if (result.finished) {
+                API.put(`/student/attempts/${attempt._id}/finish`).then(() => {
+                    this.refreshList();
+                    alert("You can not continue on this attempt.");
+                });
+            } else {
+                this.props.router.push(`/attempt/${attempt._id}`);
+            }
+        })
     }
 
     handleExamSearch(e) {
@@ -62,15 +76,17 @@ class Dashboard extends Component {
                                 <h3>Current practice attempts</h3>
 
                                 <div className="clearfix">
-                                {this.state.practiceAttempts.map(attempt => (
-                                    <div className="pt-card pt-elevation-0 pt-interactive" key={attempt._id}
-                                         onClick={() => this.props.router.push(`/attempt/${attempt._id}`)}
-                                         style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
-                                        <h5><Link to={`/attempt/${attempt._id}`}>{attempt.name}</Link></h5>
-                                        <p>Started: {moment(attempt.dateStarted).format("HH:mm D-M-YYYY")}</p>
-                                        <p>Last update: {moment(attempt.lastUpdate).format("HH:mm D-M-YYYY")}</p>
-                                    </div>
-                                ))}
+                                    {this.state.practiceAttempts.map(attempt => (
+                                        <div className="pt-card pt-elevation-0 pt-interactive" key={attempt._id}
+                                             onClick={() => {
+                                                 this.handleChooseAttempt(attempt)
+                                             }}
+                                             style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
+                                            <h5><Link to={`/attempt/${attempt._id}`}>{attempt.name}</Link></h5>
+                                            <p>Started: {moment(attempt.dateStarted).format("HH:mm D-M-YYYY")}</p>
+                                            <p>Last update: {moment(attempt.lastUpdate).format("HH:mm D-M-YYYY")}</p>
+                                        </div>
+                                    ))}
                                 </div>
 
                                 <hr/>
@@ -79,7 +95,7 @@ class Dashboard extends Component {
                                 <div className="clearfix">
                                     {this.state.examAttempts.map(attempt => (
                                         <div className="pt-card pt-elevation-0 pt-interactive" key={attempt._id}
-                                             onClick={() => this.props.router.push(`/attempt/${attempt._id}`)}
+                                             onClick={() => this.handleChooseAttempt(attempt)}
                                              style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
                                             <h5><Link to={`/attempt/${attempt._id}`}>{attempt.name}</Link></h5>
                                             <p>Started: {moment(attempt.dateStarted).format("HH:mm D-M-YYYY")}</p>

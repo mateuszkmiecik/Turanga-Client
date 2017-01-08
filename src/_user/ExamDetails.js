@@ -23,7 +23,7 @@ class ExamDetails extends Component {
 
         const {id} = this.props.params;
         if (id) {
-            API.get(`/exams/${id}`).then(exam => this.setState({
+            API.get(`/student/exams/${id}`).then(exam => this.setState({
                 exam
             }))
         }
