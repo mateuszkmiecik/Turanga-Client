@@ -10,7 +10,8 @@ class Dashboard extends Component {
         super(props)
 
         this.state = {
-            attempts: [],
+            practiceAttempts: [],
+            examAttempts: [],
             categories: [],
 
             // sidebar
@@ -28,7 +29,12 @@ class Dashboard extends Component {
 
     refreshList() {
         API.get('/student/categories').then(categories => this.setState({categories}))
-        API.get('/student/attempts').then(attempts => this.setState({attempts}))
+        API.get('/student/attempts/cat').then(attempts => {
+            this.setState({practiceAttempts : attempts});
+        });
+        API.get('/student/attempts/ex').then(attempts => {
+            this.setState({examAttempts : attempts});
+        });
     }
 
     handleExamSearch(e) {
@@ -53,10 +59,10 @@ class Dashboard extends Component {
                         <div className="row">
                             <div className="col-sm-8">
 
-                                <h3>Current exams</h3>
+                                <h3>Current practice attempts</h3>
 
                                 <div className="clearfix">
-                                {this.state.attempts.map(attempt => (
+                                {this.state.practiceAttempts.map(attempt => (
                                     <div className="pt-card pt-elevation-0 pt-interactive" key={attempt._id}
                                          onClick={() => this.props.router.push(`/attempt/${attempt._id}`)}
                                          style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
@@ -67,6 +73,20 @@ class Dashboard extends Component {
                                 ))}
                                 </div>
 
+                                <hr/>
+
+                                <h3>Current exams</h3>
+                                <div className="clearfix">
+                                    {this.state.examAttempts.map(attempt => (
+                                        <div className="pt-card pt-elevation-0 pt-interactive" key={attempt._id}
+                                             onClick={() => this.props.router.push(`/attempt/${attempt._id}`)}
+                                             style={{marginBottom: 10, marginRight: 10, width: '40%', float: 'left'}}>
+                                            <h5><Link to={`/exam/${attempt._id}`}>{attempt.name}</Link></h5>
+                                            <p>Started: {moment(attempt.dateStarted).format("HH:mm D-M-YYYY")}</p>
+                                            <p>Last update: {moment(attempt.lastUpdate).format("HH:mm D-M-YYYY")}</p>
+                                        </div>
+                                    ))}
+                                </div>
                                 <hr/>
 
                                 <h3>Available categories</h3>

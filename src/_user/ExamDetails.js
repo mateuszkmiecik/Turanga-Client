@@ -8,7 +8,7 @@ import API from '../services/API'
 
 import {Content, Sidebar} from '../components'
 
-class CategoryDetails extends Component {
+class ExamDetails extends Component {
     constructor(props) {
         super(props);
 
@@ -83,4 +83,4 @@ class CategoryDetails extends Component {
 }
 
 
-export default CategoryDetails;
+export default ExamDetails;

@@ -112,7 +112,7 @@ class Runner extends Component {
                                             </p> : null }
                                         {currentTask.forbiddenWords && currentTask.forbiddenWords.length > 0 ?
                                             <p>
-                                                <label>Required words:</label>
+                                                <label>Forbidden words:</label>
                                                 {currentTask.forbiddenWords.map(word => (
                                                     <span className="pt-tag" key={word.id}>{word.text}</span>
                                                 ))}
