@@ -133,6 +133,8 @@ class CategoryEditor extends Component {
 
     render() {
 
+        const noDB = !this.state.tasks.every(t => { return !!t.engineDB && t.engineDB.length > 0 });
+
         if (!window.onbeforeunload && !this.state.saved) {
             window.onbeforeunload = function () {
                 return "You have unsaved data. Are you sure you want to proceed?"
@@ -159,6 +161,7 @@ class CategoryEditor extends Component {
                                     <i className="fa fa-arrow-left"/>
                                 </Link>
                                 <button className="pt-button pt-large pt-intent-primary space-right"
+                                        disabled = {noDB}
                                         onClick={this.updateCategory}>Save category
                                 </button>
                             </p>
