@@ -1,8 +1,9 @@
 import React, {
     Component,
 } from 'react';
-import {Tab, TabList, TabPanel, Tabs, Alert} from "@blueprintjs/core";
+import {Tab, TabList, TabPanel, Tabs} from "@blueprintjs/core";
 
+import moment from 'moment'
 
 import API from '../services/API'
 import {Content} from '../components'
@@ -33,6 +34,7 @@ class Results extends Component {
 
     render() {
         const {exams, categories} = this.state;
+        console.log(this.props.location.query.tab)
         return (
             <Content col="10">
                 <div className="panel results full-height">
@@ -45,58 +47,56 @@ class Results extends Component {
                                 <Tab>Exams</Tab>
                             </TabList>
                             <TabPanel>
-                                <div className="row">
-                                    <div className="col-sm-7">
-                                        {categories.map((catAttempt, i) => (
-                                            <div className="pt-card pt-elevation-0 pt-interactive space-bottom" key={i}>
-                                                <div className="row">
-                                                    <div className="col-sm-6">
-                                                        <strong>Category name</strong>
-                                                        <p>{catAttempt.name}</p>
-                                                    </div>
-                                                    <div className="col-sm-3">
-                                                        <strong>Date</strong>
-                                                        <p>{new Date().toDateString()}</p>
-                                                    </div>
-                                                    <div className="col-sm-3">
-                                                        <strong>Score</strong>
-                                                        <p>{catAttempt.score}/{catAttempt.tasks.length}</p>
-                                                        <div className="pt-progress-bar pt-intent-primary pt-no-animation">
-                                                            <div className="pt-progress-meter" style={{"width": "50%"}}></div>
-                                                        </div>
-                                                    </div>
+                                {categories.map((catAttempt, i) => (
+                                    <div className="pt-card pt-elevation-0 pt-interactive space-bottom" key={i}
+                                         onClick={() => this.props.router.push(`/results/${catAttempt._id}`)}>
+                                        <div className="row">
+                                            <div className="col-sm-6">
+                                                <strong>Category name</strong>
+                                                <p>{catAttempt.name}</p>
+                                            </div>
+                                            <div className="col-sm-3">
+                                                <strong>Started at</strong>
+                                                <p>{moment(catAttempt.dateStarted).format("HH:mm D-M-YYYY")}</p>
+                                            </div>
+                                            <div className="col-sm-3">
+                                                <strong>Score</strong>
+                                                <p>{catAttempt.score}/{catAttempt.tasks.length}</p>
+                                                <div
+                                                    className="pt-progress-bar pt-intent-primary pt-no-animation">
+                                                    <div className="pt-progress-meter"
+                                                         style={{"width": `${100 * catAttempt.score / catAttempt.tasks.length}%`}}></div>
                                                 </div>
                                             </div>
-                                        ))}
+                                        </div>
                                     </div>
-                                </div>
+                                ))}
                             </TabPanel>
                             <TabPanel>
-                                <div className="row">
-                                    <div className="col-sm-7">
-                                        {exams.map((examAttempt, i) => (
-                                            <div className="pt-card pt-elevation-0 pt-interactive space-bottom" key={i}>
-                                                <div className="row">
-                                                    <div className="col-sm-6">
-                                                        <strong>Exam name</strong>
-                                                        <p>{examAttempt.name}</p>
-                                                    </div>
-                                                    <div className="col-sm-3">
-                                                        <strong>Date</strong>
-                                                        <p>{new Date().toDateString()}</p>
-                                                    </div>
-                                                    <div className="col-sm-3">
-                                                        <strong>Score</strong>
-                                                        <p>{examAttempt.score}/{examAttempt.tasks.length}</p>
-                                                        <div className="pt-progress-bar pt-intent-primary pt-no-animation">
-                                                            <div className="pt-progress-meter" style={{"width": `${100*examAttempt.score/examAttempt.tasks.length}%`}}></div>
-                                                        </div>
-                                                    </div>
+                                {exams.map((examAttempt, i) => (
+                                    <div className="pt-card pt-elevation-0 pt-interactive space-bottom" key={i}
+                                         onClick={() => this.props.router.push(`/results/${examAttempt._id}`)}>
+                                        <div className="row">
+                                            <div className="col-sm-6">
+                                                <strong>Exam name</strong>
+                                                <p>{examAttempt.name}</p>
+                                            </div>
+                                            <div className="col-sm-3">
+                                                <strong>Started at</strong>
+                                                <p>{moment(examAttempt.dateStarted).format("HH:mm D-M-YYYY")}</p>
+                                            </div>
+                                            <div className="col-sm-3">
+                                                <strong>Score</strong>
+                                                <p>{examAttempt.score}/{examAttempt.tasks.length}</p>
+                                                <div
+                                                    className="pt-progress-bar pt-intent-primary pt-no-animation">
+                                                    <div className="pt-progress-meter"
+                                                         style={{"width": `${100 * examAttempt.score / examAttempt.tasks.length}%`}}></div>
                                                 </div>
                                             </div>
-                                        ))}
+                                        </div>
                                     </div>
-                                </div>
+                                ))}
 
                             </TabPanel>
                         </Tabs>

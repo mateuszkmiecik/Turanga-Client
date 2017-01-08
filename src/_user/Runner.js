@@ -74,7 +74,7 @@ class Runner extends Component {
 
                         <div className="desc" style={{height: 100, padding: 10}}>
                             <h3>{currentTask.name}</h3>
-                            <p>{currentTask.description}</p>
+                            <div dangerouslySetInnerHTML={{__html: currentTask.description }}/>
                         </div>
                         <div className="flexbox-item-grow fill-area">
                             <div style={{width: '100%'}}>
