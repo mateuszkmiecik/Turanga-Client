@@ -20,7 +20,7 @@ const TaskEditor = ({task, onChange, onDelete, databases}) => (
             </label>
 
             <label className="pt-label">
-                DB engines:
+                Databases:
                 <div>
                     {!!task.engineDB ?
                         <div className="pt-tag">{task.engineDB.name}</div>
