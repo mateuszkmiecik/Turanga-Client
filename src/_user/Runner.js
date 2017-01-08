@@ -24,6 +24,7 @@ class Runner extends Component {
             queryRun: null
         };
         this.handleQuerySend = this.handleQuerySend.bind(this)
+        this.finishAttempt = this.finishAttempt.bind(this)
     }
 
     componentDidMount() {
@@ -32,6 +33,13 @@ class Runner extends Component {
             this.props.router.push(`/attempt/${id}?task=${attempt.tasks[0].taskId}`);
             this.setState({attempt})
         }).catch(() => this.props.router.push('/'));
+    }
+
+    finishAttempt() {
+        let {id} = this.props.params;
+        API.put(`/student/attempts/${id}/finish`).then(attempt => {
+            this.props.router.push("/");
+        })
     }
 
     render() {
@@ -45,7 +53,7 @@ class Runner extends Component {
             <div className="row runner relative full-height" style={{padding: '20px 20px 20px 270px'}}>
 
                 <div className="exercises-list full-height">
-                    <button className="pt-button pt-intent-primary" onClick={this.addNewTask}>
+                    <button className="pt-button pt-intent-primary" onClick={this.finishAttempt}>
                         Finish test
                     </button>
 

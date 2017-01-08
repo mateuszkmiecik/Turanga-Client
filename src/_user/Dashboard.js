@@ -29,10 +29,10 @@ class Dashboard extends Component {
 
     refreshList() {
         API.get('/student/categories').then(categories => this.setState({categories}))
-        API.get('/student/attempts/cat').then(attempts => {
+        API.get('/student/attempts/cat?isFinished=false').then(attempts => {
             this.setState({practiceAttempts : attempts});
         });
-        API.get('/student/attempts/ex').then(attempts => {
+        API.get('/student/attempts/ex?isFinished=false').then(attempts => {
             this.setState({examAttempts : attempts});
         });
     }
