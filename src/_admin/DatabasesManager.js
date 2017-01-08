@@ -18,7 +18,7 @@ class DatabasesManager extends Component {
                 url: '',
                 user: '',
                 password: '',
-                dbName: '',
+                dbEngine: '',
                 files: []
             }
         };
@@ -42,15 +42,35 @@ class DatabasesManager extends Component {
 
     addNewDatabase(newDatabase) {
 
-        if(newDatabase.files.length > 0){
-            API.upload(newDatabase.files).then(({filename}) => {
+        let promise = Promise.resolve({});
 
-                let {name, url, user, password, dbName} = newDatabase;
-                return Databases.createDB({
-                    name, url, user, password, dbName, schemeFile: filename
-                })
-            }).then(this.refresh);
+        if(newDatabase.files.length > 0){
+            promise = API.upload(newDatabase.files)
         }
+
+        promise.then(({filename}) => {
+            let {name, url, user, password, dbEngine} = newDatabase;
+            let newObj = {
+                name, url, user, password, dbEngine
+            };
+            if(filename){
+                newObj.schemeFile = filename;
+            }
+            return Databases.createDB(newObj)
+        }).then(() => {
+            this.refresh();
+            this.setState({
+                newDatabase: {
+                    name: '',
+                    url: '',
+                    user: '',
+                    password: '',
+                    dbEngine: '',
+                    files: []
+                }
+            })
+        });
+
 
     }
 
@@ -71,7 +91,7 @@ class DatabasesManager extends Component {
     render() {
 
         let {databases, newDatabase} = this.state;
-        const allCorrect = ['name', 'url', 'user', 'password', 'dbName'].every(field => newDatabase[field].length > 0);
+        const allCorrect = ['name', 'url', 'user', 'password', 'dbEngine'].every(field => newDatabase[field].length > 0);
 
         return (
 
@@ -94,7 +114,7 @@ class DatabasesManager extends Component {
                                                 <th>Url</th>
                                                 <th>User</th>
                                                 <th>Pass</th>
-                                                <th>dbName</th>
+                                                <th>DB Engine</th>
                                                 <th>Scheme file</th>
                                                 <th/>
                                             </tr>
@@ -107,7 +127,7 @@ class DatabasesManager extends Component {
                                                     <td>{db.url}</td>
                                                     <td>{db.user}</td>
                                                     <td>{db.password}</td>
-                                                    <td>{db.dbName}</td>
+                                                    <td>{db.dbEngine}</td>
                                                     <td><a href={`http://localhost:8080/static/${db.schemeFile}`} target="_blank">{db.schemeFile}</a></td>
                                                     <td>
                                                         <button className="btn btn-xs"
@@ -133,7 +153,7 @@ class DatabasesManager extends Component {
 
 
                                 <p>
-                                    <label>Alias</label>
+                                    <label>Name</label>
                                     <input type="text" className="pt-input pt-fill" placeholder="alias"
                                            value={newDatabase.name}
                                            onChange={this.onInputChange('newDatabase', 'name')}/>
@@ -158,10 +178,10 @@ class DatabasesManager extends Component {
                                            onChange={this.onInputChange('newDatabase', 'password')}/>
                                 </p>
                                 <p>
-                                    <label>Database name</label>
+                                    <label>DB Engine</label>
                                     <input type="text" className="pt-input pt-fill" placeholder="dbName"
-                                           value={newDatabase.dbName}
-                                           onChange={this.onInputChange('newDatabase', 'dbName')}/>
+                                           value={newDatabase.dbEngine}
+                                           onChange={this.onInputChange('newDatabase', 'dbEngine')}/>
                                 </p>
                                 <div>
                                     <label>Schema file</label>
