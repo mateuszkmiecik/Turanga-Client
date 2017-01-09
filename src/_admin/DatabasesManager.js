@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Dropzone from 'react-dropzone'
 
+import Select from 'react-select'
 import {Content, Sidebar} from '../components'
 import Databases from '../services/Databases'
 import API from '../services/API'
@@ -20,7 +21,8 @@ class DatabasesManager extends Component {
                 password: '',
                 dbEngine: '',
                 files: []
-            }
+            },
+            dbCodes: []
         };
 
 
@@ -32,6 +34,11 @@ class DatabasesManager extends Component {
 
     componentDidMount() {
         this.refresh();
+        API.get('/dbCodes').then(dbCodes => {
+            this.setState({
+                dbCodes
+            })
+        })
     }
 
     refresh() {
@@ -44,7 +51,7 @@ class DatabasesManager extends Component {
 
         let promise = Promise.resolve({});
 
-        if(newDatabase.files.length > 0){
+        if (newDatabase.files.length > 0) {
             promise = API.upload(newDatabase.files)
         }
 
@@ -53,7 +60,8 @@ class DatabasesManager extends Component {
             let newObj = {
                 name, url, user, password, dbEngine
             };
-            if(filename){
+            newObj.dbEngine = newObj.dbEngine.code;
+            if (filename) {
                 newObj.schemeFile = filename;
             }
             return Databases.createDB(newObj)
@@ -84,6 +92,16 @@ class DatabasesManager extends Component {
             })
     }
 
+    changeDBEngine(objectName, field, value) {
+        console.log(value);
+        this.setState({
+            [objectName]: {
+                ...this.state[objectName],
+                [field] : value
+            }
+        })
+    }
+
     removeDB(db) {
         Databases.deleteDB(db).then(this.refresh);
     }
@@ -91,7 +109,7 @@ class DatabasesManager extends Component {
     render() {
 
         let {databases, newDatabase} = this.state;
-        const allCorrect = ['name', 'url', 'user', 'password', 'dbEngine'].every(field => newDatabase[field].length > 0);
+        const allCorrect = ['name', 'url', 'user', 'password', 'dbEngine'].every(field => (newDatabase[field].length > 0 || !!newDatabase[field]));
 
         return (
 
@@ -106,44 +124,45 @@ class DatabasesManager extends Component {
                                 <hr/>
 
                                 {databases.length > 0 ? (
-                                        <table className="table table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>Url</th>
-                                                <th>User</th>
-                                                <th>Pass</th>
-                                                <th>DB Engine</th>
-                                                <th>Scheme file</th>
-                                                <th/>
+                                    <table className="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Url</th>
+                                            <th>User</th>
+                                            <th>Pass</th>
+                                            <th>DB Engine</th>
+                                            <th>Scheme file</th>
+                                            <th/>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {databases.map((db, idx) => (
+                                            <tr key={db._id}>
+                                                <td>{idx + 1}</td>
+                                                <td>{db.name}</td>
+                                                <td>{db.url}</td>
+                                                <td>{db.user}</td>
+                                                <td>{db.password}</td>
+                                                <td>{db.dbEngine}</td>
+                                                <td><a href={`http://localhost:8080/static/${db.schemeFile}`}
+                                                       target="_blank">{db.schemeFile}</a></td>
+                                                <td>
+                                                    <button className="btn btn-xs"
+                                                            onClick={() => this.removeDB(db)}>
+                                                        <i className="fa fa-trash"/>
+                                                    </button>
+                                                </td>
                                             </tr>
-                                            </thead>
-                                            <tbody>
-                                            {databases.map((db, idx) => (
-                                                <tr key={db._id}>
-                                                    <td>{idx + 1}</td>
-                                                    <td>{db.name}</td>
-                                                    <td>{db.url}</td>
-                                                    <td>{db.user}</td>
-                                                    <td>{db.password}</td>
-                                                    <td>{db.dbEngine}</td>
-                                                    <td><a href={`http://localhost:8080/static/${db.schemeFile}`} target="_blank">{db.schemeFile}</a></td>
-                                                    <td>
-                                                        <button className="btn btn-xs"
-                                                                onClick={() => this.removeDB(db)}>
-                                                            <i className="fa fa-trash"/>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                            </tbody>
-                                        </table>
-                                    ) : (
-                                        <div className="panel-body">
-                                            No databases added yet.
-                                        </div>
-                                    )}
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="panel-body">
+                                        No databases added yet.
+                                    </div>
+                                )}
                             </div>
 
 
@@ -179,9 +198,9 @@ class DatabasesManager extends Component {
                                 </p>
                                 <p>
                                     <label>DB Engine</label>
-                                    <input type="text" className="pt-input pt-fill" placeholder="dbName"
-                                           value={newDatabase.dbEngine}
-                                           onChange={this.onInputChange('newDatabase', 'dbEngine')}/>
+                                    <Select multi={false} value={newDatabase.dbEngine} labelKey={"code"}
+                                            onChange={dbCode => this.changeDBEngine('newDatabase', 'dbEngine', dbCode)}
+                                            options={this.state.dbCodes}/>
                                 </p>
                                 <div>
                                     <label>Schema file</label>
@@ -193,7 +212,7 @@ class DatabasesManager extends Component {
                                     })} className="pt-callout space-bottom pt-intent-warning"
                                               style={{textAlign: 'center'}}>
                                         {newDatabase.files.length > 0 ?
-                                            newDatabase.files.map(f => f.name):
+                                            newDatabase.files.map(f => f.name) :
                                             <div>Try dropping some files here, or click to select files to
                                                 upload.</div> }
                                     </Dropzone>
