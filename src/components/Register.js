@@ -11,6 +11,7 @@ class Register extends Component {
             name: '',
             username: '',
             password: '',
+            passwordSecond: '',
             isError: false
         };
 
@@ -18,11 +19,12 @@ class Register extends Component {
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleSecondPasswordChange = this.handleSecondPasswordChange.bind(this);
 
     }
 
     render() {
-        const {username, password, name, isError, errorMessage} = this.state;
+        const {username, password, passwordSecond, name, isError, errorMessage} = this.state;
 
         return (
             <div className="register">
@@ -38,12 +40,16 @@ class Register extends Component {
                     <p><input type="password"
                               placeholder="Password"
                               onChange={this.handlePasswordChange}
+                              value={password}/></p>
+                    <p><input type="password"
+                              placeholder="Password"
+                              onChange={this.handleSecondPasswordChange}
                               onKeyUp={(e) => {
                                   if (e.key === 'Enter') {
                                       this.handleLoginAction(e)
                                   }
                               }}
-                              value={password}/></p>
+                              value={passwordSecond}/></p>
 
                     <button onClick={this.handleLoginAction}>Register</button>
                 </div>
@@ -60,6 +66,9 @@ class Register extends Component {
     handlePasswordChange(e) {
         this.setState({password: e.target.value})
     }
+    handleSecondPasswordChange(e) {
+        this.setState({passwordSecond: e.target.value})
+    }
 
     handleNameChange(e) {
         this.setState({name: e.target.value})
@@ -67,13 +76,27 @@ class Register extends Component {
 
     handleLoginAction(e) {
         e.preventDefault();
-        const {username, password, name: displayName} = this.state;
+
 
         const AUTH_MESSAGES = {
             400: 'All fields are required. Try again.',
             409: 'Username is taken. Try again.',
             500: 'Something is wrong. Try again later'
         };
+
+        const {username, password, name: displayName, passwordSecond} = this.state;
+        if(!username || !password || !displayName || !passwordSecond){
+            return this.setState({
+                isError: true,
+                errorMessage: AUTH_MESSAGES[400]
+            })
+        }
+        if(password !== passwordSecond){
+            return this.setState({
+                isError: true,
+                errorMessage: "Passwords do not match."
+            })
+        }
         AuthService.register({username, password, displayName}).then(profile => {
             hashHistory.push('/?registered');
             location.reload();
