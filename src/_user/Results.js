@@ -34,7 +34,6 @@ class Results extends Component {
 
     render() {
         const {exams, categories} = this.state;
-        console.log(this.props.location.query.tab)
         return (
             <Content col="10">
                 <div className="panel results full-height">

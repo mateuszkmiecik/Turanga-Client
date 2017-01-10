@@ -6,7 +6,6 @@ import {SideMenu} from '../components'
 
 class SingleResult extends Component {
     render() {
-        console.log(this.props)
         return (
             <div className="row full-height">
                 <SideMenu>

@@ -40,7 +40,6 @@ class CategoriesManager extends EditableComponent {
 
     handleFilterChange(e) {
         const {list} = this.state;
-        console.log(list.filter(task => task.name.toLowerCase().includes(e.target.value.toLowerCase())))
         this.setState({
             filter: e.target.value,
             listCopy: list.filter(task => task.name.toLowerCase().includes(e.target.value.toLowerCase()))
