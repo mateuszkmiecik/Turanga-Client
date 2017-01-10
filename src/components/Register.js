@@ -1,34 +1,36 @@
 import React, {Component} from 'react';
 import AuthService from '../services/Auth'
-import Register from './Register'
+import {hashHistory} from 'react-router'
 
-class Login extends Component {
+class Register extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
+            name: '',
             username: '',
             password: '',
-            registerMode: false,
             isError: false
         };
 
         this.handleLoginAction = this.handleLoginAction.bind(this);
+        this.handleNameChange = this.handleNameChange.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
 
     }
 
     render() {
-        const {username, password, isError, errorMessage} = this.state;
-
-        console.log(location.hash.endsWith('registered'));
+        const {username, password, name, isError, errorMessage} = this.state;
 
         return (
-            <div className="login">
-                {location.hash.endsWith('registered') ? <p className="text-center">User registered!</p> : null}
+            <div className="register">
                 <div className="login-box">
+                    <p><input type="text"
+                              placeholder="Name"
+                              onChange={this.handleNameChange}
+                              value={name}/></p>
                     <p><input type="text"
                               placeholder="Login"
                               onChange={this.handleUsernameChange}
@@ -43,20 +45,11 @@ class Login extends Component {
                               }}
                               value={password}/></p>
 
-                    <button onClick={this.handleLoginAction}>Login</button>
-                    <button onClick={() => this.setState({
-                        registerMode: !this.state.registerMode
-                    })}>Register
-                    </button>
-                    {/*<button className="link">Login as guest</button>*/}
+                    <button onClick={this.handleLoginAction}>Register</button>
                 </div>
 
                 {isError ? <div className="error-message">{errorMessage}</div> : null}
-
-                {this.state.registerMode ?
-                    <Register/> : null }
             </div>
-
         );
     }
 
@@ -68,17 +61,30 @@ class Login extends Component {
         this.setState({password: e.target.value})
     }
 
+    handleNameChange(e) {
+        this.setState({name: e.target.value})
+    }
+
     handleLoginAction(e) {
         e.preventDefault();
-        const {username, password} = this.state;
-        AuthService.authenticate({username, password}).then(profile => this.props.onSuccess(profile), err => {
-            console.log(err);
+        const {username, password, name: displayName} = this.state;
+
+        const AUTH_MESSAGES = {
+            400: 'All fields are required. Try again.',
+            409: 'Username is taken. Try again.',
+            500: 'Something is wrong. Try again later'
+        };
+        AuthService.register({username, password, displayName}).then(profile => {
+            hashHistory.push('/?registered');
+            location.reload();
+        }, err => {
+            console.log(JSON.stringify());
             this.setState({
                 isError: true,
-                errorMessage: 'Invalid username or/and password.'
+                errorMessage: AUTH_MESSAGES[err.response.status] || "Unknown error."
             })
         })
     }
 }
 
-export default Login;
+export default Register;

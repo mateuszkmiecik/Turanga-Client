@@ -20,10 +20,14 @@ function authenticate(userData) {
     })
 }
 
+function register(userData){
+    return API.post('/auth/register', userData)
+}
+
 function logout() {
     API.setToken(null);
     history.pushState("", document.title, window.location.pathname);
     location.reload()
 }
 
-export default {init, authenticate, logout}
+export default {init, authenticate, register, logout}
