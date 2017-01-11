@@ -19,12 +19,12 @@ class AppRouter extends Component {
                 <Route path='/' component={Main}>
                     <IndexRoute component={CategoriesManager}/>
                     <Route path="results" component={Results}/>
+                    <Route path="results/:id" component={SingleResult}/>
                     <Route path="databases" component={DatabaseManager}/>
                     <Route path="users" component={Users}/>
                     <Route path="exams" component={Exams}/>
                 </Route>
                 <Route path="/categories/:id" component={CategoryEditor}/>
-                <Route path="/results/:id" component={SingleResult}/>
                 <Route path="*" component={NotFound}/>
             </Router>
         )
