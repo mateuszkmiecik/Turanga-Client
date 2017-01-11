@@ -34,7 +34,7 @@ class Results extends Component {
                                  onClick={() => this.props.router.push(`/results/${catAttempt._id}`)}>
                                 <div className="row">
                                     <div className="col-sm-3">
-                                        <strong>Category name</strong>
+                                        <strong>{!!catAttempt.catId ? "Category name" : "Exam name"}</strong>
                                         <p>{catAttempt.name}</p>
                                     </div>
                                     <div className="col-sm-3">
