@@ -125,7 +125,14 @@ class Runner extends Component {
                                                 ))}
 
                                             </p> : null }
-
+                                        {currentTask.engineDB ?
+                                            <p>
+                                                <label>Database:</label>
+                                                <p>{currentTask.engineDB[0].name}</p>
+                                                <label>SQL Dialect:</label>
+                                                <p>{currentTask.engineDB[0].dbEngine}</p>
+                                            </p>
+                                            : null }
                                         <p>
                                             Scheme file:
                                             <a href="#">scheme.pdf</a>
