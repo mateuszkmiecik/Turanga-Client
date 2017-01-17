@@ -131,12 +131,11 @@ class Runner extends Component {
                                                 <p>{currentTask.engineDB[0].name}</p>
                                                 <label>SQL Dialect:</label>
                                                 <p>{currentTask.engineDB[0].dbEngine}</p>
+                                                <label>Scheme file:</label>
+                                                <a href={`http://localhost:8080/static/${currentTask.engineDB[0].schemeFile}`}
+                                               target="_blank">{currentTask.engineDB[0].schemeFile}</a>
                                             </p>
                                             : null }
-                                        <p>
-                                            Scheme file:
-                                            <a href="#">scheme.pdf</a>
-                                        </p>
                                     </div>
 
 
