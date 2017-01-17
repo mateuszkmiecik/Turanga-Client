@@ -218,8 +218,8 @@ class DatabasesManager extends Component {
 
                                 <p>
                                     <label>Name</label>
-                                    <input type="text" className="pt-input pt-fill" placeholder="alias"
-                                           value={editDatabase.name}
+                                    <input type="text" className="pt-input pt-fill" placeholder="name"
+                                           value={newDatabase.name}
                                            onChange={this.onInputChange('newDatabase', 'name')}/>
                                 </p>
 
@@ -279,7 +279,7 @@ class DatabasesManager extends Component {
                     <div className="pt-dialog-body">
                         <p>
                             <label>Name</label>
-                            <input type="text" className="pt-input pt-fill" placeholder="alias"
+                            <input type="text" className="pt-input pt-fill" placeholder="name"
                                    value={editDatabase.name}
                                    onChange={this.onInputChange('editDatabase', 'name')}/>
                         </p>
