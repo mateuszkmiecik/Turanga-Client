@@ -42,7 +42,7 @@ class Register extends Component {
                               onChange={this.handlePasswordChange}
                               value={password}/></p>
                     <p><input type="password"
-                              placeholder="Password"
+                              placeholder="Repeat password"
                               onChange={this.handleSecondPasswordChange}
                               onKeyUp={(e) => {
                                   if (e.key === 'Enter') {
